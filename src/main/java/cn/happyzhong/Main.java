@@ -31,7 +31,7 @@ public class Main {
      */
     private static void test1() {
         ArrayList<String> list = new ArrayList<>();
-        String content = DataReader.read("src/data.cvs", 1);
+        String content = DataReader.read("src/main/java/data.cvs", 1);
         System.out.println("读进来的数据为：" + content + "\n");
         String[] words = content.split(",");
         for (String word : words) {
@@ -51,7 +51,7 @@ public class Main {
      * ArrayList实现数据分割
      */
     private static void test2() {
-        String srcData = DataReader.read("src/data.cvs", 2);
+        String srcData = DataReader.read("src/main/java/data.cvs", 2);
         System.out.println("\n\n读进来的数据为：" + srcData + "\n");
         String[] data = srcData.split(",");
         ArrayList<String> list = new ArrayList<>();
@@ -70,7 +70,7 @@ public class Main {
      */
     private static void test3() {
         LinkedList<String> linkedList = new LinkedList<>();
-        String srcData = DataReader.read("src/data.cvs", 1);
+        String srcData = DataReader.read("src/main/java/data.cvs", 1);
         String[] data = srcData.split(",");
         for (int i = 0; i < data.length; i++) {
             linkedList.add(data[i]);
@@ -85,9 +85,9 @@ public class Main {
      * 计算表达式
      */
     private static void test4() {
-        String srcData = DataReader.read("src/data.cvs", 3);
+        String srcData = DataReader.read("src/main/java/data.cvs", 3);
         String[] express1 = srcData.split(",");
-        srcData = DataReader.read("src/data.cvs", 4);
+        srcData = DataReader.read("src/main/java/data.cvs", 4);
         String[] express2 = srcData.split(",");
         LinkedList<Multinomial> express11 = new LinkedList<>();
         LinkedList<Multinomial> express22 = new LinkedList<>();
