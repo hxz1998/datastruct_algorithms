@@ -2,10 +2,11 @@
  * Created by Xiaozhong on 2018/12/9.
  * Copyright (c) 2018/12/9 Xiaozhong. All rights reserved.
  */
-package cn.happyzhong;
+package cn.happyzhong.basics;
 
 import cn.happyzhong.util.DataReader;
 import cn.happyzhong.util.ListPrinter;
+import edu.princeton.cs.algs4.StdDraw;
 
 public class Main {
 
@@ -21,7 +22,7 @@ public class Main {
         System.out.println("\n-----------------------");
 //        test5();
         System.out.println("\n-----------------------");
-        //test6(8, 1, 4);
+        test6(8, 1, 4);
         long end = System.currentTimeMillis();
         System.out.println("\n上述程序程序运行时间大约为：" + (end - start) + "ms :)");
     }
@@ -159,6 +160,7 @@ public class Main {
             System.out.print(list.get(index) + " ");
             list.remove(list.get(index));
         }
+        StdDraw.arc(10, 10, 10, 10, 10);
         System.out.println(list.get(0));
     }
 }

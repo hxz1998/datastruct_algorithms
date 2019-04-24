@@ -4,7 +4,7 @@
  */
 package cn.happyzhong.util;
 
-import cn.happyzhong.List;
+import cn.happyzhong.basics.List;
 
 public class ListPrinter {
     public static void print(List list, String space) {
