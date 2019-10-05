@@ -2,12 +2,18 @@
  * Created by Xiaozhong on 2019/4/24.
  * Copyright (c) 2019/4/24 Xiaozhong. All rights reserved.
  */
-package cn.happyzhong.sort;
+package sort;
 
+import basics.RootFilePath;
+import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
-public class Example {
+/**
+ * 选择排序法
+ */
+public class Selection {
+
     private static boolean less(Comparable v, Comparable w) {
         return v.compareTo(w) < 0;
     }
@@ -32,14 +38,22 @@ public class Example {
         return true;
     }
 
-    public static void sort(Comparable[] a) {
-
-    }
-
     public static void main(String[] args) {
-        String[] a = StdIn.readAllStrings();
+        String[] a = new In(RootFilePath.root + "tiny.txt").readAllStrings();
+//        String[] a = StdIn.readAllStrings();
         sort(a);
         assert isSorted(a);
         show(a);
+    }
+
+    public static void sort(Comparable[] a) {
+        int N = a.length;
+        for (int i = 0; i < N; i++) {
+            int min = i;
+            for (int j = 1; j < N; j++) {
+                if (less(a[j], a[min])) min = j;
+            }
+            exch(a, i, min);
+        }
     }
 }

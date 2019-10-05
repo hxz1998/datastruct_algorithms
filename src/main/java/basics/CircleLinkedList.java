@@ -2,7 +2,7 @@
  * Created by Xiaozhong on 2018/12/9.
  * Copyright (c) 2018/12/9 Xiaozhong. All rights reserved.
  */
-package cn.happyzhong.basics;
+package basics;
 
 public class CircleLinkedList extends LinkedList {
     @Override

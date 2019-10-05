@@ -2,7 +2,7 @@
  * Created by Xiaozhong on 2018/12/9.
  * Copyright (c) 2018/12/9 Xiaozhong. All rights reserved.
  */
-package cn.happyzhong.util;
+package util;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

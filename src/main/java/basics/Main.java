@@ -2,10 +2,10 @@
  * Created by Xiaozhong on 2018/12/9.
  * Copyright (c) 2018/12/9 Xiaozhong. All rights reserved.
  */
-package cn.happyzhong.basics;
+package basics;
 
-import cn.happyzhong.util.DataReader;
-import cn.happyzhong.util.ListPrinter;
+import util.DataReader;
+import util.ListPrinter;
 import edu.princeton.cs.algs4.StdDraw;
 
 public class Main {
