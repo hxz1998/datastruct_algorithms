@@ -15,7 +15,7 @@
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 **/dataset/**
-
+*.zip
 # Gradle
 .idea/**/gradle.xml
 .idea/**/libraries

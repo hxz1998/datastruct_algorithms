@@ -38,7 +38,11 @@ public class QuickUnionPathCompression {
         int i = root(p);
         int j = root(q);
         if (i != j) {
-            id[i] = j;
+            if (i > j) {
+                id[j] = i;
+            } else {
+                id[i] = j;
+            }
         }
     }
 
