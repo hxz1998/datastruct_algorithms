@@ -1,27 +1,27 @@
 package stacksandqueues;
 
-public class FixedCapacityStackOfStrings {
+public class FixedCapacityStackOfStrings<Item> {
     private int N = 0;
-    private String[] s;
+    private Item[] s;
 
     public FixedCapacityStackOfStrings(int size) {
-        s = new String[size];
+        s = (Item[]) new Object[size];
     }
 
     public boolean isEmpty() {
         return N == 0;
     }
 
-    public void push(String item) {
+    public void push(Item item) {
         s[N++] = item;
     }
 
-    public String pop() {
+    public Item pop() {
         return s[--N];
     }
 
     public static void main(String[] args) {
-        FixedCapacityStackOfStrings stack = new FixedCapacityStackOfStrings(10);
+        FixedCapacityStackOfStrings<String> stack = new FixedCapacityStackOfStrings<String>(10);
         stack.push("你好");
         stack.push("我叫");
         System.out.println(stack.pop());

@@ -1,6 +1,6 @@
 package stacksandqueues;
 
-public class LinkedStackOfStrings {
+public class LinkedStackOfStrings<Item> {
     private Node first = null;
 
     public LinkedStackOfStrings() {
@@ -10,7 +10,7 @@ public class LinkedStackOfStrings {
     }
 
     private class Node {
-        String item;
+        Item item;
         Node next;
     }
 
@@ -18,21 +18,21 @@ public class LinkedStackOfStrings {
         return first.next == null;
     }
 
-    public void push(String value) {
+    public void push(Item value) {
         Node oldFirst = first;
         first = new Node();
         first.item = value;
         first.next = oldFirst;
     }
 
-    public String pop() {
-        String value = first.item;
+    public Item pop() {
+        Item value = first.item;
         first = first.next;
         return value;
     }
 
     public static void main(String[] args) {
-        LinkedStackOfStrings linkedStackOfStrings = new LinkedStackOfStrings();
+        LinkedStackOfStrings<String> linkedStackOfStrings = new LinkedStackOfStrings<String>();
         linkedStackOfStrings.push("你好");
         linkedStackOfStrings.push("我叫");
         System.out.println(linkedStackOfStrings.pop());
