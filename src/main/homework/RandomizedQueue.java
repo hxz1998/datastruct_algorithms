@@ -131,6 +131,12 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 //        for (int i = 0; i < 5; i++) System.out.print(queue.dequeue() + " ");
         Iterator<Integer> iterator = queue.iterator();
         while (iterator.hasNext())
-            System.out.print(iterator.next());
+            System.out.print(iterator.next() + " ");
+
+        System.out.println(queue.isEmpty());
+
+        RandomizedQueue<String> queue1 = new RandomizedQueue<>();
+        Iterator iterator1 = queue1.iterator();
+        System.out.println(iterator1.hasNext());
     }
 }

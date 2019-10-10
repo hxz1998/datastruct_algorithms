@@ -1,8 +1,7 @@
-import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
-//import util.DataPathTemplate;
 
+//import util.DataPathTemplate;
 public class Permutation {
     public static void main(String[] args) {
         RandomizedQueue<String> randomizedQueue = new RandomizedQueue<>();
@@ -11,7 +10,7 @@ public class Permutation {
 //        String[] strings = StdIn.readAllStrings();
 //        for (String item : strings) randomizedQueue.enqueue(item);
         String string = StdIn.readString();
-        while(string != null) {
+        while (string != null) {
             randomizedQueue.enqueue(string);
             string = StdIn.readString();
         }

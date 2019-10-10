@@ -16,6 +16,7 @@ public class Deque<Item> implements Iterable<Item> {
     private static class Node<Item> {
         Item value;
         Node<Item> next;
+        Node<Item> prev;
     }
 
     // is the deque empty?
@@ -35,9 +36,10 @@ public class Deque<Item> implements Iterable<Item> {
         }
         if (size != 0) {
             Node<Item> oldFirst = first;
-            first = new Node<Item>();
+            first = new Node<>();
             first.value = item;
             first.next = oldFirst;
+            oldFirst.prev = first;
         } else {
             first.value = item;
         }
@@ -51,8 +53,9 @@ public class Deque<Item> implements Iterable<Item> {
         }
         if (size != 0) {
             Node<Item> oldLast = last;
-            last = new Node<Item>();
+            last = new Node<>();
             last.value = item;
+            last.prev = oldLast;
             oldLast.next = last;
         } else {
             last.value = item;
@@ -62,14 +65,13 @@ public class Deque<Item> implements Iterable<Item> {
 
     // remove and return the item from the front
     public Item removeFirst() {
-        Item value = first.value;
-        if (size != 0 && size != 1) {
-            first = first.next;
-        } else if (size == 1) {
-            first.value = null;
-            first.next = null;
-        } else {
+        if (isEmpty()) {
             throw new NoSuchElementException("Empty!");
+        }
+        Item value = first.value;
+        if (size != 1) {
+            first = first.next;
+            first.prev = null;
         }
         size--;
         return value;
@@ -77,20 +79,13 @@ public class Deque<Item> implements Iterable<Item> {
 
     // remove and return the item from the back
     public Item removeLast() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Empty");
+        }
         Item value = last.value;
-        Node<Item> current = first;
-        if (size > 2) {
-            while (current.next.next != null) {
-                current = current.next;
-            }
-            current.next = null;
-            last = current;
-        } else if (size == 2) {
-            last = first;
-        } else if (size == 1) {
-            first.value = last.value = null;
-        } else {
-            throw new NoSuchElementException("Empty!");
+        if (size != 1) {
+            last = last.prev;
+            last.next = null;
         }
         size--;
         return value;
@@ -107,6 +102,9 @@ public class Deque<Item> implements Iterable<Item> {
 
         @Override
         public Item next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException("Empty");
+            }
             Item value = current.value;
             current = current.next;
             return value;
@@ -125,26 +123,25 @@ public class Deque<Item> implements Iterable<Item> {
 
     // unit testing (required)
     public static void main(String[] args) {
-        Deque<Integer> deque = new Deque<Integer>();
-        deque.addFirst(1);
-        deque.addFirst(2);
-        deque.addLast(3);
-        deque.addLast(4);
-        Iterator<Integer> iterator = deque.iterator();
-        while (iterator.hasNext()) {
-            System.out.print(iterator.next() + " ");
-        }
-        System.out.println();
-        while (!deque.isEmpty()) {
+//        Deque<Integer> deque = new Deque<Integer>();
+//        deque.addFirst(1);
+//        deque.addFirst(2);
+//        deque.addLast(3);
+//        deque.addLast(4);
+//        Iterator<Integer> iterator = deque.iterator();
+//        while (iterator.hasNext()) {
+//            System.out.print(iterator.next() + " ");
+//        }
+//        System.out.println();
+//        while (!deque.isEmpty()) {
 //            System.out.print(deque.removeFirst() + " ");
-            System.out.print(deque.removeLast() + " ");
-        }
+////            System.out.print(deque.removeLast() + " ");
+//        }
 
+        Deque<Integer>  deque= new Deque<Integer>();
+        deque.addLast(1);
+        System.out.println(deque.removeFirst());
 
-        Deque<Integer> deque1 = new Deque<Integer>();
-        deque1.addFirst(1);
-        deque1.removeFirst();
-        deque1.addFirst(3);
     }
 
 }
