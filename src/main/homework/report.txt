@@ -2,27 +2,27 @@ See the Assessment Guide for information on how to interpret this report.
 
 ASSESSMENT SUMMARY
 
-Compilation:  FAILED (0 errors, 1 warning)
+Compilation:  FAILED (0 errors, 2 warnings)
 API:          PASSED
 
 Spotbugs:     PASSED
 PMD:          FAILED (3 warnings)
 Checkstyle:   FAILED (0 errors, 1 warning)
 
-Correctness:  27/43 tests passed
-Memory:       99/114 tests passed
-Timing:       120/193 tests passed
+Correctness:  24/43 tests passed
+Memory:       102/114 tests passed
+Timing:       114/193 tests passed
 
-Aggregate score: 63.79%
+Aggregate score: 59.25%
 [Compilation: 5%, API: 5%, Spotbugs: 0%, PMD: 0%, Checkstyle: 0%, Correctness: 60%, Memory: 10%, Timing: 20%]
 
 ASSESSMENT DETAILS
 
 The following files were submitted:
 ----------------------------------
-3.5K Oct 10 08:46 Deque.java
- 799 Oct 10 08:46 Permutation.java
-4.0K Oct 10 08:46 RandomizedQueue.java
+4.1K Oct 10 11:20 Deque.java
+ 820 Oct 10 11:20 Permutation.java
+4.1K Oct 10 11:20 RandomizedQueue.java
 
 
 ********************************************************************************
@@ -32,6 +32,13 @@ The following files were submitted:
 
 % javac11 Deque.java
 *-----------------------------------------------------------
+Deque.java:151: warning: [rawtypes] found raw type: Iterator
+        Iterator iterator = deque1.iterator();
+        ^
+  missing type arguments for generic class Iterator<E>
+  where E is a type-variable:
+    E extends Object declared in interface Iterator
+1 warning
 
 % javac11 RandomizedQueue.java
 *-----------------------------------------------------------
@@ -190,44 +197,146 @@ Test 8: check whether two Deque objects can be created at the same time
 
 Test 9: check iterator() after n calls to addFirst()
   * n = 10
+
+    java.lang.NullPointerException
+
+    Deque$DequeIterator.hasNext(Deque.java:104)
+    SafeIterable$SafeIterator.hasNext(SafeIterable.java:54)
+    UtilCOS.compareAsSequences(UtilCOS.java:801)
+    UtilCOS.compareAsSequences(UtilCOS.java:794)
+    TestDeque.checkIteratorAfterAddFirst(TestDeque.java:605)
+    TestDeque.test9(TestDeque.java:618)
+    TestDeque.main(TestDeque.java:857)
+
   * n = 50
-==> passed
+
+    java.lang.NullPointerException
+
+    Deque$DequeIterator.hasNext(Deque.java:104)
+    SafeIterable$SafeIterator.hasNext(SafeIterable.java:54)
+    UtilCOS.compareAsSequences(UtilCOS.java:801)
+    UtilCOS.compareAsSequences(UtilCOS.java:794)
+    TestDeque.checkIteratorAfterAddFirst(TestDeque.java:605)
+    TestDeque.test9(TestDeque.java:619)
+    TestDeque.main(TestDeque.java:857)
+
+==> FAILED
 
 Test 10: check iterator() after each of m intermixed calls to
          addFirst(), addLast(), removeFirst(), and removeLast()
   * m = 20
-    - number of student   entries = 1
-    - number of reference entries = 0
-    - iterator() failed after applying operation 2
-    - sequence of operations was:
-         Deque deque<Integer> = new Deque<Integer>()
-         deque.addFirst(1)
-         deque.removeFirst()   ==> 1
 
-  * m = 50
-    - number of student   entries = 1
-    - number of reference entries = 0
-    - iterator() failed after applying operation 34
+    java.lang.NullPointerException
 
-  * m = 100
-    - number of student   entries = 1
-    - number of reference entries = 0
-    - iterator() failed after applying operation 2
+    Deque$DequeIterator.hasNext(Deque.java:104)
+    SafeIterable$SafeIterator.hasNext(SafeIterable.java:54)
+    UtilCOS.compareAsSequences(UtilCOS.java:801)
+    UtilCOS.compareAsSequences(UtilCOS.java:794)
+    TestDeque.checkIteratorAfterIntermixedOperations(TestDeque.java:276)
+    TestDeque.test10(TestDeque.java:627)
+    TestDeque.main(TestDeque.java:858)
+
     - sequence of operations was:
          Deque deque<Integer> = new Deque<Integer>()
          deque.addLast(1)
-         deque.removeFirst()   ==> 1
+
+  * m = 50
+
+    java.lang.NullPointerException
+
+    Deque$DequeIterator.hasNext(Deque.java:104)
+    SafeIterable$SafeIterator.hasNext(SafeIterable.java:54)
+    UtilCOS.compareAsSequences(UtilCOS.java:801)
+    UtilCOS.compareAsSequences(UtilCOS.java:794)
+    TestDeque.checkIteratorAfterIntermixedOperations(TestDeque.java:276)
+    TestDeque.test10(TestDeque.java:628)
+    TestDeque.main(TestDeque.java:858)
+
+    - sequence of operations was:
+         Deque deque<Integer> = new Deque<Integer>()
+         deque.addLast(1)
+
+  * m = 100
+
+    java.lang.NullPointerException
+
+    Deque$DequeIterator.hasNext(Deque.java:104)
+    SafeIterable$SafeIterator.hasNext(SafeIterable.java:54)
+    UtilCOS.compareAsSequences(UtilCOS.java:801)
+    UtilCOS.compareAsSequences(UtilCOS.java:794)
+    TestDeque.checkIteratorAfterIntermixedOperations(TestDeque.java:276)
+    TestDeque.test10(TestDeque.java:629)
+    TestDeque.main(TestDeque.java:858)
+
+    - sequence of operations was:
+         Deque deque<Integer> = new Deque<Integer>()
+         deque.addFirst(1)
 
   * m = 1000
+
+    java.lang.NullPointerException
+
+    Deque$DequeIterator.hasNext(Deque.java:104)
+    SafeIterable$SafeIterator.hasNext(SafeIterable.java:54)
+    UtilCOS.compareAsSequences(UtilCOS.java:801)
+    UtilCOS.compareAsSequences(UtilCOS.java:794)
+    TestDeque.checkIteratorAfterIntermixedOperations(TestDeque.java:276)
+    TestDeque.test10(TestDeque.java:630)
+    TestDeque.main(TestDeque.java:858)
+
+    - sequence of operations was:
+         Deque deque<Integer> = new Deque<Integer>()
+         deque.addLast(1)
+
 ==> FAILED
 
 Test 11: create two nested iterators to same deque
   * n = 10
+
+    java.lang.NullPointerException
+
+    Deque$DequeIterator.hasNext(Deque.java:104)
+    TestDeque.twoNestedIterators(TestDeque.java:325)
+    TestDeque.test11(TestDeque.java:637)
+    TestDeque.main(TestDeque.java:859)
+
+==> FAILED
+
   * n = 50
-==> passed
+
+    java.lang.NullPointerException
+
+    Deque$DequeIterator.hasNext(Deque.java:104)
+    TestDeque.twoNestedIterators(TestDeque.java:325)
+    TestDeque.test11(TestDeque.java:638)
+    TestDeque.main(TestDeque.java:859)
+
+==> FAILED
+
+==> FAILED
 
 Test 12: create two parallel iterators to same deque
-==> passed
+
+    java.lang.NullPointerException
+
+    Deque$DequeIterator.hasNext(Deque.java:104)
+    TestDeque.twoParallelIterators(TestDeque.java:417)
+    TestDeque.test12(TestDeque.java:645)
+    TestDeque.main(TestDeque.java:860)
+
+==> FAILED
+
+
+    java.lang.NullPointerException
+
+    Deque$DequeIterator.hasNext(Deque.java:104)
+    TestDeque.twoParallelIterators(TestDeque.java:417)
+    TestDeque.test12(TestDeque.java:646)
+    TestDeque.main(TestDeque.java:860)
+
+==> FAILED
+
+==> FAILED
 
 Test 13: create Deque objects of different parameterized types
 ==> passed
@@ -236,15 +345,17 @@ Test 14: call addFirst() and addLast() with null argument
 ==> passed
 
 Test 15: check that remove() and next() throw the specified exceptions in iterator()
-==> passed
-
-Test 16: call iterator() when the deque is empty
-    - hasNext() returns true
+    - throws wrong exception when calling next() when iterator is exhausted
+    - throws a java.lang.NullPointerException
+    - should throw a java.util.NoSuchElementException
 
 ==> FAILED
 
+Test 16: call iterator() when the deque is empty
+==> passed
 
-Total: 14/16 tests passed!
+
+Total: 11/16 tests passed!
 
 
 ================================================================
@@ -271,28 +382,34 @@ Test 2: check random calls to enqueue() and dequeue()
 
     java.lang.NullPointerException
 
-    RandomizedQueue.dequeue(RandomizedQueue.java:75)
+    RandomizedQueue.dequeue(RandomizedQueue.java:64)
     TestRandomizedQueue.random(TestRandomizedQueue.java:115)
     TestRandomizedQueue.test2(TestRandomizedQueue.java:749)
     TestRandomizedQueue.main(TestRandomizedQueue.java:1191)
 
+    - sequence of dequeue operations was:
+         RandomizedQueue<Integer> rq = new RandomizedQueue<Integer>()
+         rq.enqueue(311)
+         rq.enqueue(552)
+         rq.size()        ==> 2
+         rq.size()        ==> 2
+         rq.dequeue()     ==> 552
+         rq.size()        ==> 1
+         rq.enqueue(616)
+         rq.dequeue()
+
   *    5 random calls (0.1, 0.7, 0.0, 0.1, 0.1)
   *   50 random calls (0.1, 0.7, 0.0, 0.1, 0.1)
-    - failed on operation 24 of 50
+    - failed on operation 43 of 50
     - dequeue() returned null
 
   *  500 random calls (0.1, 0.7, 0.0, 0.1, 0.1)
-    - failed on operation 163 of 500
+    - failed on operation 20 of 500
     - dequeue() returned null
 
   * 1000 random calls (0.1, 0.7, 0.0, 0.1, 0.1)
-
-    java.lang.NullPointerException
-
-    RandomizedQueue.dequeue(RandomizedQueue.java:64)
-    TestRandomizedQueue.random(TestRandomizedQueue.java:115)
-    TestRandomizedQueue.test2(TestRandomizedQueue.java:753)
-    TestRandomizedQueue.main(TestRandomizedQueue.java:1191)
+    - failed on operation 15 of 1000
+    - dequeue() returned null
 
 ==> FAILED
 
@@ -310,30 +427,33 @@ Test 3: check random calls to enqueue(), sample(), and size()
 Test 4: check random calls to enqueue(), dequeue(), sample(), isEmpty(), and size()
   *    5 random calls (0.6, 0.1, 0.1, 0.1, 0.1)
   *   50 random calls (0.6, 0.1, 0.1, 0.1, 0.1)
-  *  500 random calls (0.6, 0.1, 0.1, 0.1, 0.1)
-  * 1000 random calls (0.6, 0.1, 0.1, 0.1, 0.1)
 
     java.lang.NullPointerException
 
-    RandomizedQueue.dequeue(RandomizedQueue.java:75)
-    TestRandomizedQueue.random(TestRandomizedQueue.java:115)
-    TestRandomizedQueue.test4(TestRandomizedQueue.java:777)
+    RandomizedQueue.sample(RandomizedQueue.java:90)
+    TestRandomizedQueue.random(TestRandomizedQueue.java:152)
+    TestRandomizedQueue.test4(TestRandomizedQueue.java:775)
     TestRandomizedQueue.main(TestRandomizedQueue.java:1197)
 
+  *  500 random calls (0.6, 0.1, 0.1, 0.1, 0.1)
+
+    java.lang.NullPointerException
+
+    RandomizedQueue.sample(RandomizedQueue.java:90)
+    TestRandomizedQueue.random(TestRandomizedQueue.java:152)
+    TestRandomizedQueue.test4(TestRandomizedQueue.java:776)
+    TestRandomizedQueue.main(TestRandomizedQueue.java:1197)
+
+  * 1000 random calls (0.6, 0.1, 0.1, 0.1, 0.1)
   *    5 random calls (0.1, 0.6, 0.1, 0.1, 0.1)
   *   50 random calls (0.1, 0.6, 0.1, 0.1, 0.1)
   *  500 random calls (0.1, 0.6, 0.1, 0.1, 0.1)
-    - failed on operation 61 of 500
+    - failed on operation 46 of 500
     - dequeue() returned null
 
   * 1000 random calls (0.1, 0.6, 0.1, 0.1, 0.1)
-
-    java.lang.NullPointerException
-
-    RandomizedQueue.dequeue(RandomizedQueue.java:67)
-    TestRandomizedQueue.random(TestRandomizedQueue.java:115)
-    TestRandomizedQueue.test4(TestRandomizedQueue.java:781)
-    TestRandomizedQueue.main(TestRandomizedQueue.java:1197)
+    - failed on operation 12 of 1000
+    - dequeue() returned null
 
 ==> FAILED
 
@@ -356,14 +476,6 @@ Test 7: check that iterator() returns correct items after a sequence
 Test 8: check that iterator() returns correct items after sequence
         of m enqueue() and dequeue() operations
   * m = 10
-
-    java.lang.NullPointerException
-
-    RandomizedQueue.dequeue(RandomizedQueue.java:58)
-    TestRandomizedQueue.checkIteratorAfterEnqueueDequeue(TestRandomizedQueue.java:891)
-    TestRandomizedQueue.test8(TestRandomizedQueue.java:921)
-    TestRandomizedQueue.main(TestRandomizedQueue.java:1209)
-
   * m = 1000
 
     java.lang.NullPointerException
@@ -1388,99 +1500,7 @@ Test 3 (bonus): check that maximum size of any or Deque or RandomizedQueue objec
 
   * filename = tale.txt, n = 138653, k = 500
 
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    MemoryOfPermutation.checkMaxSizeBonus(MemoryOfPermutation.java:116)
-    MemoryOfPermutation.test3(MemoryOfPermutation.java:186)
-    MemoryOfPermutation.main(MemoryOfPermutation.java:200)
-
-  * filename = tale.txt, n = 138653, k = 5000
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    MemoryOfPermutation.checkMaxSizeBonus(MemoryOfPermutation.java:116)
-    MemoryOfPermutation.test3(MemoryOfPermutation.java:187)
-    MemoryOfPermutation.main(MemoryOfPermutation.java:200)
-
-  * filename = tale.txt, n = 138653, k = 50000
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    MemoryOfPermutation.checkMaxSizeBonus(MemoryOfPermutation.java:116)
-    MemoryOfPermutation.test3(MemoryOfPermutation.java:188)
-    MemoryOfPermutation.main(MemoryOfPermutation.java:200)
-
-==> FAILED
-
-Total: 0/2 tests passed!
-
-
-================================================================
-
-
-
-********************************************************************************
-*  MEMORY
-********************************************************************************
-
-Analyzing memory of Deque
-*-----------------------------------------------------------
-For tests 1-4, the maximum amount of memory allowed for a Deque
-containing n items is 48n + 192.
-
-Running 48 total tests.
-
-Test 1a-1i: total memory usage after inserting n items,
-            where n is a power of 2
-
-                 n        bytes
-----------------------------------------------------------
-=> passed       32         1320
-=> passed       64         2600
-=> passed      128         5160
-=> passed      256        10280
-=> passed      512        20520
-=> passed     1024        41000
-=> passed     2048        81960
-=> passed     4096       163880
-=> passed     8192       327720
-==> 9/9 tests passed
-
-Memory: 40.00 n + 40.00   (R^2 = 1.000)
-
-
-Test 2a-2i: Total memory usage after inserting n items,
-            when n is one more than a power of 2.
-
-                 n        bytes
-----------------------------------------------------------
-=> passed       33         1360
-=> passed       65         2640
-=> passed      129         5200
-=> passed      257        10320
-=> passed      513        20560
-=> passed     1025        41040
-=> passed     2049        82000
-=> passed     4097       163920
-=> passed     8193       327760
-==> 9/9 tests passed
-
-Memory: 40.00 n + 40.00   (R^2 = 1.000)
-
-
-Test 3a-3i: Total memory usage after inserting 2n-1 items, and then
-            deleting n-1 items, when n is one more than a power of 2.
-
-                 n        bytes
-----------------------------------------------------------
-=> passed       33         1360
-=>
+    java.util.No
 
 ...
 

@@ -72,6 +72,8 @@ public class Deque<Item> implements Iterable<Item> {
         if (size != 1) {
             first = first.next;
             first.prev = null;
+        } else {
+            first.value = null;
         }
         size--;
         return value;
@@ -86,6 +88,8 @@ public class Deque<Item> implements Iterable<Item> {
         if (size != 1) {
             last = last.prev;
             last.next = null;
+        } else {
+            last.value = null;
         }
         size--;
         return value;
@@ -97,7 +101,7 @@ public class Deque<Item> implements Iterable<Item> {
 
         @Override
         public boolean hasNext() {
-            return current != null;
+            return current.value != null;
         }
 
         @Override
@@ -138,10 +142,23 @@ public class Deque<Item> implements Iterable<Item> {
 ////            System.out.print(deque.removeLast() + " ");
 //        }
 
-        Deque<Integer>  deque= new Deque<Integer>();
+        Deque<Integer> deque = new Deque<Integer>();
         deque.addLast(1);
         System.out.println(deque.removeFirst());
+        System.out.println(deque.iterator().hasNext());
+        deque.addLast(2);
 
+        Deque<Integer> deque1 = new Deque<>();
+
+
+        Iterator iterator = deque1.iterator();
+        for (int i = 0; i < 20; i++) {
+            deque1.addFirst(i);
+        }
+        System.out.println(iterator.hasNext());
+
+        Deque<Integer> deque2 = new Deque<Integer>();
+        deque2.addLast(1);
     }
 
 }
