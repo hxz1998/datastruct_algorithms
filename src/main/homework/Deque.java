@@ -10,10 +10,12 @@ public class Deque<Item> implements Iterable<Item> {
     public Deque() {
         size = 0;
         first = new Node<Item>();
+        first.next = null;
+        first.prev = null;
         last = first;
     }
 
-    private static class Node<Item> {
+    private class Node<Item> {
         Item value;
         Node<Item> next;
         Node<Item> prev;
@@ -34,13 +36,13 @@ public class Deque<Item> implements Iterable<Item> {
         if (item == null) {
             throw new IllegalArgumentException("Args is illegal!");
         }
-        if (size != 0) {
+        if (size > 0) {
             Node<Item> oldFirst = first;
             first = new Node<>();
             first.value = item;
             first.next = oldFirst;
             oldFirst.prev = first;
-        } else {
+        } else if (size == 0) {
             first.value = item;
         }
         size++;
@@ -51,13 +53,13 @@ public class Deque<Item> implements Iterable<Item> {
         if (item == null) {
             throw new IllegalArgumentException("Args is illegal!");
         }
-        if (size != 0) {
+        if (size > 0) {
             Node<Item> oldLast = last;
             last = new Node<>();
             last.value = item;
             last.prev = oldLast;
             oldLast.next = last;
-        } else {
+        } else if (size == 0) {
             last.value = item;
         }
         size++;
@@ -101,7 +103,7 @@ public class Deque<Item> implements Iterable<Item> {
 
         @Override
         public boolean hasNext() {
-            return current.value != null;
+            return current != null && current.value != null;
         }
 
         @Override
@@ -149,16 +151,30 @@ public class Deque<Item> implements Iterable<Item> {
         deque.addLast(2);
 
         Deque<Integer> deque1 = new Deque<>();
-
-
-        Iterator iterator = deque1.iterator();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 10; i++) {
             deque1.addFirst(i);
         }
-        System.out.println(iterator.hasNext());
+        Iterator iterator = deque1.iterator();
+        while (iterator.hasNext()) {
+            System.out.print(iterator.next() + " ");
+        }
+
+        for (int i = 0; i < 10; i++) {
+            System.out.println(deque1.removeFirst());
+        }
 
         Deque<Integer> deque2 = new Deque<Integer>();
         deque2.addLast(1);
+
+        Deque<Integer> deque3 = new Deque<>();
+        deque3.addLast(1);
+        deque3.addLast(2);
+        System.out.println(deque3.removeFirst());
+        System.out.println(deque3.removeFirst());
+        Iterator iterator1 = deque3.iterator();
+        while (iterator1.hasNext()) {
+            System.out.println(iterator1.next());
+        }
     }
 
 }
