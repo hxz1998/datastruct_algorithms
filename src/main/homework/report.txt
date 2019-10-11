@@ -2,27 +2,27 @@ See the Assessment Guide for information on how to interpret this report.
 
 ASSESSMENT SUMMARY
 
-Compilation:  FAILED (0 errors, 3 warnings)
+Compilation:  FAILED (0 errors, 1 warning)
 API:          PASSED
 
 Spotbugs:     PASSED
-PMD:          FAILED (3 warnings)
-Checkstyle:   FAILED (0 errors, 1 warning)
+PMD:          FAILED (2 warnings)
+Checkstyle:   FAILED (0 errors, 2 warnings)
 
-Correctness:  29/43 tests passed
-Memory:       101/114 tests passed
-Timing:       130/193 tests passed
+Correctness:  33/43 tests passed
+Memory:       50/50 tests passed
+Timing:       163/193 tests passed
 
-Aggregate score: 67.80%
+Aggregate score: 77.94%
 [Compilation: 5%, API: 5%, Spotbugs: 0%, PMD: 0%, Checkstyle: 0%, Correctness: 60%, Memory: 10%, Timing: 20%]
 
 ASSESSMENT DETAILS
 
 The following files were submitted:
 ----------------------------------
-4.9K Oct 11 04:50 Deque.java
- 820 Oct 11 04:50 Permutation.java
-4.1K Oct 11 04:50 RandomizedQueue.java
+4.9K Oct 11 10:25 Deque.java
+ 531 Oct 11 10:25 Permutation.java
+4.1K Oct 11 10:25 RandomizedQueue.java
 
 
 ********************************************************************************
@@ -32,24 +32,11 @@ The following files were submitted:
 
 % javac11 Deque.java
 *-----------------------------------------------------------
-Deque.java:157: warning: [rawtypes] found raw type: Iterator
-        Iterator iterator = deque1.iterator();
-        ^
-  missing type arguments for generic class Iterator<E>
-  where E is a type-variable:
-    E extends Object declared in interface Iterator
-Deque.java:174: warning: [rawtypes] found raw type: Iterator
-        Iterator iterator1 = deque3.iterator();
-        ^
-  missing type arguments for generic class Iterator<E>
-  where E is a type-variable:
-    E extends Object declared in interface Iterator
-2 warnings
 
 % javac11 RandomizedQueue.java
 *-----------------------------------------------------------
-RandomizedQueue.java:139: warning: [rawtypes] found raw type: Iterator
-        Iterator iterator1 = queue1.iterator();
+RandomizedQueue.java:142: warning: [rawtypes] found raw type: Iterator
+        Iterator iterator = rq.iterator();
         ^
   missing type arguments for generic class Iterator<E>
   where E is a type-variable:
@@ -88,10 +75,9 @@ Permutation:
 
 % pmd .
 *-----------------------------------------------------------
-RandomizedQueue.java:54: Avoid unused local variables, such as 'prev'. [UnusedLocalVariable]
-RandomizedQueue.java:74: Avoid using assignment statements in expressions; this can make code harder to read. [AssignmentInOperand]
-RandomizedQueue.java:89: Avoid using assignment statements in expressions; this can make code harder to read. [AssignmentInOperand]
-PMD ends with 3 warnings.
+RandomizedQueue.java:76: Avoid using assignment statements in expressions; this can make code harder to read. [AssignmentInOperand]
+RandomizedQueue.java:98: Avoid using assignment statements in expressions; this can make code harder to read. [AssignmentInOperand]
+PMD ends with 2 warnings.
 
 
 ================================================================
@@ -99,15 +85,16 @@ PMD ends with 3 warnings.
 
 % checkstyle *.java
 *-----------------------------------------------------------
+[WARN] Permutation.java:2:8: Unused import statement for 'edu.princeton.cs.algs4.StdOut'. [UnusedImports]
 [WARN] Permutation.java:4:3: '//' or '/*' is not followed by whitespace. [WhitespaceAfter]
-Checkstyle ends with 0 errors and 1 warning.
+Checkstyle ends with 0 errors and 2 warnings.
 
 % custom checkstyle checks for Deque.java
 *-----------------------------------------------------------
 
 % custom checkstyle checks for RandomizedQueue.java
 *-----------------------------------------------------------
-[INFO] RandomizedQueue.java:89: Using a loop in this method might be a performance bug. [Performance]
+[INFO] RandomizedQueue.java:98: Using a loop in this method might be a performance bug. [Performance]
 
 % custom checkstyle checks for Permutation.java
 *-----------------------------------------------------------
@@ -257,44 +244,19 @@ Test 1: check random calls to enqueue() and size()
 Test 2: check random calls to enqueue() and dequeue()
   *    5 random calls (0.7, 0.1, 0.0, 0.1, 0.1)
   *   50 random calls (0.7, 0.1, 0.0, 0.1, 0.1)
-
-    java.lang.NullPointerException
-
-    RandomizedQueue.dequeue(RandomizedQueue.java:67)
-    TestRandomizedQueue.random(TestRandomizedQueue.java:115)
-    TestRandomizedQueue.test2(TestRandomizedQueue.java:747)
-    TestRandomizedQueue.main(TestRandomizedQueue.java:1191)
-
-    - sequence of dequeue operations was:
-         RandomizedQueue<Integer> rq = new RandomizedQueue<Integer>()
-         rq.isEmpty()     ==> true
-         rq.enqueue(3)
-         rq.enqueue(5)
-         rq.dequeue()     ==> 5
-         rq.isEmpty()     ==> false
-         rq.enqueue(27)
-         rq.dequeue()     ==> 3
-         rq.dequeue()
-
   *  500 random calls (0.7, 0.1, 0.0, 0.1, 0.1)
-
-    java.lang.NullPointerException
-
-    RandomizedQueue.dequeue(RandomizedQueue.java:77)
-    TestRandomizedQueue.random(TestRandomizedQueue.java:115)
-    TestRandomizedQueue.test2(TestRandomizedQueue.java:748)
-    TestRandomizedQueue.main(TestRandomizedQueue.java:1191)
-
   * 1000 random calls (0.7, 0.1, 0.0, 0.1, 0.1)
+    - failed on operation 222 of 1000
+    - dequeue() returned item 422
+    - but item 422 is no longer in randomized queue
+
   *    5 random calls (0.1, 0.7, 0.0, 0.1, 0.1)
   *   50 random calls (0.1, 0.7, 0.0, 0.1, 0.1)
   *  500 random calls (0.1, 0.7, 0.0, 0.1, 0.1)
-    - failed on operation 20 of 500
-    - dequeue() returned null
-
   * 1000 random calls (0.1, 0.7, 0.0, 0.1, 0.1)
-    - failed on operation 109 of 1000
-    - dequeue() returned null
+    - failed on operation 180 of 1000
+    - dequeue() returned item 249
+    - but item 249 is no longer in randomized queue
 
 ==> FAILED
 
@@ -313,37 +275,15 @@ Test 4: check random calls to enqueue(), dequeue(), sample(), isEmpty(), and siz
   *    5 random calls (0.6, 0.1, 0.1, 0.1, 0.1)
   *   50 random calls (0.6, 0.1, 0.1, 0.1, 0.1)
   *  500 random calls (0.6, 0.1, 0.1, 0.1, 0.1)
-
-    java.lang.NullPointerException
-
-    RandomizedQueue.sample(RandomizedQueue.java:90)
-    TestRandomizedQueue.random(TestRandomizedQueue.java:152)
-    TestRandomizedQueue.test4(TestRandomizedQueue.java:776)
-    TestRandomizedQueue.main(TestRandomizedQueue.java:1197)
-
   * 1000 random calls (0.6, 0.1, 0.1, 0.1, 0.1)
+    - failed on operation 612 of 1000
+    - dequeue() returned item 293
+    - but item 293 is no longer in randomized queue
+
   *    5 random calls (0.1, 0.6, 0.1, 0.1, 0.1)
   *   50 random calls (0.1, 0.6, 0.1, 0.1, 0.1)
-    - failed on operation 46 of 50
-    - dequeue() returned null
-
   *  500 random calls (0.1, 0.6, 0.1, 0.1, 0.1)
-    - failed on operation 60 of 500
-    - dequeue() returned null
-
   * 1000 random calls (0.1, 0.6, 0.1, 0.1, 0.1)
-    - failed on operation 7 of 1000
-    - dequeue() returned null
-
-    - sequence of randomized queue operations was:
-         RandomizedQueue<Integer> rq = new RandomizedQueue<Integer>()
-         rq.enqueue(982)
-         rq.size()        ==> 1
-         rq.enqueue(892)
-         rq.dequeue()     ==> 892
-         rq.dequeue()     ==> 982
-         rq.enqueue(973)
-         rq.dequeue()     ==> null
 ==> FAILED
 
 Test 5: call dequeue() and sample() from an empty randomized queue
@@ -353,34 +293,58 @@ Test 5: call dequeue() and sample() from an empty randomized queue
 
 Test 6: create multiple randomized queue objects at the same time
   * n = 10
+    - values dequeued do not match values enqueued
+
   * n = 100
-==> passed
+    - values dequeued do not match values enqueued
+
+==> FAILED
 
 Test 7: check that iterator() returns correct items after a sequence
         of n enqueue() operations
   * n = 10
+    - number of entries in student   solution: 10
+    - number of entries in reference solution: 10
+    - 1 extra entry in student solution:
+      '4'
+
+    - 1 missing entry in student solution:
+      '7'
+
+
   * n = 50
-==> passed
+    - number of entries in student   solution: 50
+    - number of entries in reference solution: 50
+    - 12 extra entries in student solution, including:
+      '48'
+
+    - 12 missing entries in student solution, including:
+      '38'
+
+
+==> FAILED
 
 Test 8: check that iterator() returns correct items after sequence
         of m enqueue() and dequeue() operations
   * m = 10
+    - number of entries in student   solution: 9
+    - number of entries in reference solution: 9
+    - 1 extra entry in student solution:
+      '5'
 
-    java.lang.NullPointerException
+    - 1 missing entry in student solution:
+      '6'
 
-    RandomizedQueue.dequeue(RandomizedQueue.java:58)
-    TestRandomizedQueue.checkIteratorAfterEnqueueDequeue(TestRandomizedQueue.java:891)
-    TestRandomizedQueue.test8(TestRandomizedQueue.java:921)
-    TestRandomizedQueue.main(TestRandomizedQueue.java:1209)
 
   * m = 1000
+    - number of entries in student   solution: 512
+    - number of entries in reference solution: 512
+    - 344 extra entries in student solution, including:
+      '258'
 
-    java.lang.NullPointerException
+    - 344 missing entries in student solution, including:
+      '995'
 
-    RandomizedQueue.dequeue(RandomizedQueue.java:58)
-    TestRandomizedQueue.checkIteratorAfterEnqueueDequeue(TestRandomizedQueue.java:891)
-    TestRandomizedQueue.test8(TestRandomizedQueue.java:922)
-    TestRandomizedQueue.main(TestRandomizedQueue.java:1209)
 
 ==> FAILED
 
@@ -407,7 +371,24 @@ Test 10: create two parallel iterators over the same randomized queue
 ==> FAILED
 
 Test 11: create two iterators over different randomized queues
-==> passed
+    - number of entries in student   solution: 10
+    - number of entries in reference solution: 10
+    - 1 extra entry in student solution:
+      '5'
+
+    - 1 missing entry in student solution:
+      '6'
+
+    - number of entries in student   solution: 10
+    - number of entries in reference solution: 10
+    - 2 extra entries in student solution, including:
+      '6'
+
+    - 2 missing entries in student solution, including:
+      '9'
+
+
+==> FAILED
 
 Test 12: create RandomizedQueue objects of different parameterized types
 ==> passed
@@ -425,16 +406,32 @@ Test 14: check randomness of dequeue() by enqueueing n items, dequeueing n items
   * n = 2, trials = 12000
   * n = 3, trials = 12000
   * n = 4, trials = 12000
+    - dequeue() returns the same item more than once
+    - but no duplicate items were added
+    - failed on operation 6 of 12000
+
   * n = 5, trials = 12000
-==> passed
+    - dequeue() returns the same item more than once
+    - but no duplicate items were added
+    - failed on operation 1 of 12000
+
+==> FAILED
 
 Test 15: check randomness of iterator() by enqueueing n items, iterating over those
          n items, and seeing whether each of the n! permutations is equally likely
   * n = 2, trials = 12000
   * n = 3, trials = 12000
   * n = 4, trials = 12000
+    - iterator() returns the same item more than once
+    - but no duplicate items were added to randomized queue
+    - failed on operation 1 of 12000
+
   * n = 5, trials = 12000
-==> passed
+    - iterator() returns the same item more than once
+    - but no duplicate items were added to randomized queue
+    - failed on operation 4 of 12000
+
+==> FAILED
 
 Test 16: call enqueue() with a null argument
 ==> passed
@@ -446,7 +443,7 @@ Test 18: call iterator() when randomized queue is empty
 ==> passed
 
 
-Total: 13/18 tests passed!
+Total: 8/18 tests passed!
 
 
 ================================================================
@@ -463,476 +460,100 @@ Running 9 total tests.
 
 Test 1a: check formatting for sample inputs from assignment specification
   % java Permutation 3 < distinct.txt
-
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    TestPermutation.checkFormatting(TestPermutation.java:40)
-    TestPermutation.test1a(TestPermutation.java:206)
-    TestPermutation.main(TestPermutation.java:316)
-
-  - student solution threw an exception
-  - reference solution did not throw an exception
+  C
+  A
+  F
 
   % java Permutation 3 < distinct.txt
-
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    TestPermutation.checkFormatting(TestPermutation.java:40)
-    TestPermutation.test1a(TestPermutation.java:207)
-    TestPermutation.main(TestPermutation.java:316)
-
-  - student solution threw an exception
-  - reference solution did not throw an exception
+  E
+  G
+  C
 
   % java Permutation 8 < duplicates.txt
+  BB
+  BB
+  BB
+  BB
+  AA
+  CC
+  CC
+  BB
 
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    TestPermutation.checkFormatting(TestPermutation.java:40)
-    TestPermutation.test1a(TestPermutation.java:208)
-    TestPermutation.main(TestPermutation.java:316)
-
-  - student solution threw an exception
-  - reference solution did not throw an exception
-
-==> FAILED
+==> passed
 
 Test 1b: check formatting for other inputs
   % java Permutation 8 < mediumTale.txt
-
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    TestPermutation.checkFormatting(TestPermutation.java:40)
-    TestPermutation.test1b(TestPermutation.java:214)
-    TestPermutation.main(TestPermutation.java:319)
-
-  - student solution threw an exception
-  - reference solution did not throw an exception
+  the
+  best
+  was
+  of
+  of
+  foolishness
+  the
+  was
 
   % java Permutation 0 < distinct.txt
+  [no output]
 
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    TestPermutation.checkFormatting(TestPermutation.java:40)
-    TestPermutation.test1b(TestPermutation.java:215)
-    TestPermutation.main(TestPermutation.java:319)
-
-  - student solution threw an exception
-  - reference solution did not throw an exception
-
-==> FAILED
+==> passed
 
 Test 2: check that main() reads all data from standard input
   * filename = distinct.txt, k = 3
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    UtilCOS.consumesStdIn(UtilCOS.java:189)
-    TestPermutation.checkConsumesStdIn(TestPermutation.java:52)
-    TestPermutation.test2(TestPermutation.java:221)
-    TestPermutation.main(TestPermutation.java:322)
-
   * filename = distinct.txt, k = 3
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    UtilCOS.consumesStdIn(UtilCOS.java:189)
-    TestPermutation.checkConsumesStdIn(TestPermutation.java:52)
-    TestPermutation.test2(TestPermutation.java:222)
-    TestPermutation.main(TestPermutation.java:322)
-
   * filename = duplicates.txt, k = 8
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    UtilCOS.consumesStdIn(UtilCOS.java:189)
-    TestPermutation.checkConsumesStdIn(TestPermutation.java:52)
-    TestPermutation.test2(TestPermutation.java:223)
-    TestPermutation.main(TestPermutation.java:322)
-
   * filename = mediumTale.txt, k = 8
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    UtilCOS.consumesStdIn(UtilCOS.java:189)
-    TestPermutation.checkConsumesStdIn(TestPermutation.java:52)
-    TestPermutation.test2(TestPermutation.java:224)
-    TestPermutation.main(TestPermutation.java:322)
-
-==> FAILED
+==> passed
 
 Test 3a: check that main() prints each item from the sequence at most once
          (for inputs with no duplicate strings)
   * filename = distinct.txt, k = 3
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkStringFrequencies(TestPermutation.java:74)
-    TestPermutation.test3a(TestPermutation.java:232)
-    TestPermutation.main(TestPermutation.java:325)
-
   * filename = distinct.txt, k = 1
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkStringFrequencies(TestPermutation.java:74)
-    TestPermutation.test3a(TestPermutation.java:233)
-    TestPermutation.main(TestPermutation.java:325)
-
   * filename = distinct.txt, k = 9
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkStringFrequencies(TestPermutation.java:74)
-    TestPermutation.test3a(TestPermutation.java:234)
-    TestPermutation.main(TestPermutation.java:325)
-
   * filename = permutation6.txt, k = 6
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkStringFrequencies(TestPermutation.java:74)
-    TestPermutation.test3a(TestPermutation.java:235)
-    TestPermutation.main(TestPermutation.java:325)
-
   * filename = permutation10.txt, k = 10
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkStringFrequencies(TestPermutation.java:74)
-    TestPermutation.test3a(TestPermutation.java:236)
-    TestPermutation.main(TestPermutation.java:325)
-
-==> FAILED
+==> passed
 
 Test 3b: check that main() prints each item from the sequence at most once
          (for inputs with duplicate strings)
   * filename = duplicates.txt, k = 8
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkStringFrequencies(TestPermutation.java:74)
-    TestPermutation.test3b(TestPermutation.java:244)
-    TestPermutation.main(TestPermutation.java:328)
-
   * filename = duplicates.txt, k = 3
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkStringFrequencies(TestPermutation.java:74)
-    TestPermutation.test3b(TestPermutation.java:245)
-    TestPermutation.main(TestPermutation.java:328)
-
   * filename = permutation8.txt, k = 6
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkStringFrequencies(TestPermutation.java:74)
-    TestPermutation.test3b(TestPermutation.java:246)
-    TestPermutation.main(TestPermutation.java:328)
-
   * filename = permutation8.txt, k = 2
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkStringFrequencies(TestPermutation.java:74)
-    TestPermutation.test3b(TestPermutation.java:247)
-    TestPermutation.main(TestPermutation.java:328)
-
   * filename = tinyTale.txt, k = 10
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkStringFrequencies(TestPermutation.java:74)
-    TestPermutation.test3b(TestPermutation.java:248)
-    TestPermutation.main(TestPermutation.java:328)
-
-==> FAILED
+==> passed
 
 Test 3c: check that main() prints each item from the sequence at most once
          (for inputs with newlines)
   * filename = mediumTale.txt, k = 10
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkStringFrequencies(TestPermutation.java:74)
-    TestPermutation.test3c(TestPermutation.java:256)
-    TestPermutation.main(TestPermutation.java:331)
-
   * filename = mediumTale.txt, k = 20
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkStringFrequencies(TestPermutation.java:74)
-    TestPermutation.test3c(TestPermutation.java:257)
-    TestPermutation.main(TestPermutation.java:331)
-
   * filename = tale.txt, k = 10
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkStringFrequencies(TestPermutation.java:74)
-    TestPermutation.test3c(TestPermutation.java:259)
-    TestPermutation.main(TestPermutation.java:331)
-
   * filename = tale.txt, k = 50
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkStringFrequencies(TestPermutation.java:74)
-    TestPermutation.test3c(TestPermutation.java:260)
-    TestPermutation.main(TestPermutation.java:331)
-
-==> FAILED
+==> passed
 
 Test 4: check main() when k = 0
   * filename = distinct.txt, k = 0
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkStringFrequencies(TestPermutation.java:74)
-    TestPermutation.test4(TestPermutation.java:267)
-    TestPermutation.main(TestPermutation.java:334)
-
   * filename = distinct.txt, k = 0
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkStringFrequencies(TestPermutation.java:74)
-    TestPermutation.test4(TestPermutation.java:268)
-    TestPermutation.main(TestPermutation.java:334)
-
-==> FAILED
+==> passed
 
 Test 5a: check that permutations are uniformly random
          (for inputs with no duplicate strings)
   * filename = permutation4.txt, k = 1
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkRandomnessOfPermutation(TestPermutation.java:161)
-    TestPermutation.test5a(TestPermutation.java:278)
-    TestPermutation.main(TestPermutation.java:337)
-
   * filename = permutation4.txt, k = 2
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkRandomnessOfPermutation(TestPermutation.java:161)
-    TestPermutation.test5a(TestPermutation.java:279)
-    TestPermutation.main(TestPermutation.java:337)
-
   * filename = permutation4.txt, k = 3
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkRandomnessOfPermutation(TestPermutation.java:161)
-    TestPermutation.test5a(TestPermutation.java:280)
-    TestPermutation.main(TestPermutation.java:337)
-
   * filename = permutation4.txt, k = 4
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkRandomnessOfPermutation(TestPermutation.java:161)
-    TestPermutation.test5a(TestPermutation.java:281)
-    TestPermutation.main(TestPermutation.java:337)
-
   * filename = permutation6.txt, k = 2
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkRandomnessOfPermutation(TestPermutation.java:161)
-    TestPermutation.test5a(TestPermutation.java:282)
-    TestPermutation.main(TestPermutation.java:337)
-
-==> FAILED
+==> passed
 
 Test 5b: check that permutations are uniformly random
          (for inputs with duplicate strings)
   * filename = permutation5.txt, k = 1
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkRandomnessOfPermutation(TestPermutation.java:161)
-    TestPermutation.test5b(TestPermutation.java:290)
-    TestPermutation.main(TestPermutation.java:340)
-
   * filename = permutation5.txt, k = 2
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkRandomnessOfPermutation(TestPermutation.java:161)
-    TestPermutation.test5b(TestPermutation.java:291)
-    TestPermutation.main(TestPermutation.java:340)
-
   * filename = permutation5.txt, k = 3
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkRandomnessOfPermutation(TestPermutation.java:161)
-    TestPermutation.test5b(TestPermutation.java:292)
-    TestPermutation.main(TestPermutation.java:340)
-
   * filename = duplicates.txt, k = 3
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkRandomnessOfPermutation(TestPermutation.java:161)
-    TestPermutation.test5b(TestPermutation.java:293)
-    TestPermutation.main(TestPermutation.java:340)
-
   * filename = permutation8.txt, k = 2
+==> passed
 
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TestPermutation.checkRandomnessOfPermutation(TestPermutation.java:161)
-    TestPermutation.test5b(TestPermutation.java:294)
-    TestPermutation.main(TestPermutation.java:340)
-
-==> FAILED
-
-Total: 0/9 tests passed!
+Total: 9/9 tests passed!
 
 
 ================================================================
@@ -946,272 +567,66 @@ Running 23 total tests.
 
 Test 1: count calls to methods in StdIn
   * java Permutation 5 < distinct.txt
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TimePermutation.countCallsToStdIn(TimePermutation.java:61)
-    TimePermutation.test1(TimePermutation.java:303)
-    TimePermutation.main(TimePermutation.java:358)
-
   * java Permutation 10 < permutation10.txt
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TimePermutation.countCallsToStdIn(TimePermutation.java:61)
-    TimePermutation.test1(TimePermutation.java:304)
-    TimePermutation.main(TimePermutation.java:358)
-
   * java Permutation 1 < mediumTale.txt
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TimePermutation.countCallsToStdIn(TimePermutation.java:61)
-    TimePermutation.test1(TimePermutation.java:305)
-    TimePermutation.main(TimePermutation.java:358)
-
   * java Permutation 20 < tale.txt
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TimePermutation.countCallsToStdIn(TimePermutation.java:61)
-    TimePermutation.test1(TimePermutation.java:306)
-    TimePermutation.main(TimePermutation.java:358)
-
   * java Permutation 100 < tale.txt
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TimePermutation.countCallsToStdIn(TimePermutation.java:61)
-    TimePermutation.test1(TimePermutation.java:307)
-    TimePermutation.main(TimePermutation.java:358)
-
   * java Permutation 16412 < tale.txt
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TimePermutation.countCallsToStdIn(TimePermutation.java:61)
-    TimePermutation.test1(TimePermutation.java:308)
-    TimePermutation.main(TimePermutation.java:358)
-
-==> FAILED
+==> passed
 
 Test 2: count calls to methods in Deque and RandomizedQueue
   * java Permutation 5 < distinct.txt
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TimePermutation.countCallsToDequeAndRandomizedQueue(TimePermutation.java:140)
-    TimePermutation.test2(TimePermutation.java:314)
-    TimePermutation.main(TimePermutation.java:361)
-
   * java Permutation 10 < permutation10.txt
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TimePermutation.countCallsToDequeAndRandomizedQueue(TimePermutation.java:140)
-    TimePermutation.test2(TimePermutation.java:315)
-    TimePermutation.main(TimePermutation.java:361)
-
   * java Permutation 1 < mediumTale.txt
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TimePermutation.countCallsToDequeAndRandomizedQueue(TimePermutation.java:140)
-    TimePermutation.test2(TimePermutation.java:316)
-    TimePermutation.main(TimePermutation.java:361)
-
   * java Permutation 20 < tale.txt
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TimePermutation.countCallsToDequeAndRandomizedQueue(TimePermutation.java:140)
-    TimePermutation.test2(TimePermutation.java:317)
-    TimePermutation.main(TimePermutation.java:361)
-
   * java Permutation 100 < tale.txt
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TimePermutation.countCallsToDequeAndRandomizedQueue(TimePermutation.java:140)
-    TimePermutation.test2(TimePermutation.java:318)
-    TimePermutation.main(TimePermutation.java:361)
-
   * java Permutation 16412 < tale.txt
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TimePermutation.countCallsToDequeAndRandomizedQueue(TimePermutation.java:140)
-    TimePermutation.test2(TimePermutation.java:319)
-    TimePermutation.main(TimePermutation.java:361)
-
-==> FAILED
+==> passed
 
 Test 3: count calls to methods in StdRandom
   * java Permutation 5 < distinct.txt
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TimePermutation.countCallsToStdRandom(TimePermutation.java:225)
-    TimePermutation.test3(TimePermutation.java:325)
-    TimePermutation.main(TimePermutation.java:364)
-
   * java Permutation 10 < permutation10.txt
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TimePermutation.countCallsToStdRandom(TimePermutation.java:225)
-    TimePermutation.test3(TimePermutation.java:326)
-    TimePermutation.main(TimePermutation.java:364)
-
   * java Permutation 1 < mediumTale.txt
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TimePermutation.countCallsToStdRandom(TimePermutation.java:225)
-    TimePermutation.test3(TimePermutation.java:327)
-    TimePermutation.main(TimePermutation.java:364)
-
   * java Permutation 20 < tale.txt
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TimePermutation.countCallsToStdRandom(TimePermutation.java:225)
-    TimePermutation.test3(TimePermutation.java:328)
-    TimePermutation.main(TimePermutation.java:364)
-
   * java Permutation 100 < tale.txt
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TimePermutation.countCallsToStdRandom(TimePermutation.java:225)
-    TimePermutation.test3(TimePermutation.java:329)
-    TimePermutation.main(TimePermutation.java:364)
-
   * java Permutation 16412 < tale.txt
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TimePermutation.countCallsToStdRandom(TimePermutation.java:225)
-    TimePermutation.test3(TimePermutation.java:330)
-    TimePermutation.main(TimePermutation.java:364)
-
-==> FAILED
+==> passed
 
 Test 4: Time main() with k = 5, for inputs containing n random strings
 
                     n  seconds
 ------------------------------
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TimePermutation.timeMain(TimePermutation.java:265)
-    TimePermutation.checkRunningTimeOfMain(TimePermutation.java:284)
-    TimePermutation.test4(TimePermutation.java:336)
-    TimePermutation.main(TimePermutation.java:367)
-
-=> FAILED        1000 Infinity
-   [ Most likely main() takes more than linear time. ]
-==> 0/10 tests passed
+=> passed        1000     0.00
+=> passed        2000     0.00
+=> passed        4000     0.00
+=> passed        8000     0.00
+=> passed       16000     0.01
+=> passed       32000     0.01
+=> passed       64000     0.03
+=> passed      128000     0.06
+=> passed      256000     0.11
+=> passed      512000     0.22
+==> 10/10 tests passed
 
 
 Test 5: Time main() with k = 1000, for inputs containing n random strings
 
                     n  seconds
 ------------------------------
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    UtilCOS.execute(UtilCOS.java:159)
-    UtilCOS.execute(UtilCOS.java:146)
-    TimePermutation.timeMain(TimePermutation.java:265)
-    TimePermutation.checkRunningTimeOfMain(TimePermutation.java:284)
-    TimePermutation.test5(TimePermutation.java:341)
-    TimePermutation.main(TimePermutation.java:370)
-
-=> FAILED        1000 Infinity
-   [ Most likely main() takes more than linear time. ]
-==> 0/10 tests passed
+=> passed        1000     0.00
+=> passed        2000     0.00
+=> passed        4000     0.00
+=> passed        8000     0.00
+=> passed       16000     0.01
+=> passed       32000     0.01
+=> passed       64000     0.02
+=> passed      128000     0.10
+=> passed      256000     0.37
+=> passed      512000     0.19
+==> 10/10 tests passed
 
 
-Total: 0/23 tests passed!
+Total: 23/23 tests passed!
 
 
 ================================================================
@@ -1228,206 +643,45 @@ Running 2 total tests.
 
 Test 1: check that only one Deque or RandomizedQueue object is created
   * filename = distinct.txt, n = 9, k = 1
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    MemoryOfPermutation.checkNumberOfObjects(MemoryOfPermutation.java:27)
-    MemoryOfPermutation.test1(MemoryOfPermutation.java:157)
-    MemoryOfPermutation.main(MemoryOfPermutation.java:198)
-
   * filename = distinct.txt, n = 9, k = 2
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    MemoryOfPermutation.checkNumberOfObjects(MemoryOfPermutation.java:27)
-    MemoryOfPermutation.test1(MemoryOfPermutation.java:158)
-    MemoryOfPermutation.main(MemoryOfPermutation.java:198)
-
   * filename = distinct.txt, n = 9, k = 4
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    MemoryOfPermutation.checkNumberOfObjects(MemoryOfPermutation.java:27)
-    MemoryOfPermutation.test1(MemoryOfPermutation.java:159)
-    MemoryOfPermutation.main(MemoryOfPermutation.java:198)
-
   * filename = tinyTale.txt, n = 12, k = 10
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    MemoryOfPermutation.checkNumberOfObjects(MemoryOfPermutation.java:27)
-    MemoryOfPermutation.test1(MemoryOfPermutation.java:160)
-    MemoryOfPermutation.main(MemoryOfPermutation.java:198)
-
   * filename = tale.txt, n = 138653, k = 50
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    MemoryOfPermutation.checkNumberOfObjects(MemoryOfPermutation.java:27)
-    MemoryOfPermutation.test1(MemoryOfPermutation.java:161)
-    MemoryOfPermutation.main(MemoryOfPermutation.java:198)
-
-==> FAILED
+==> passed
 
 Test 2: check that the maximum size of any Deque or RandomizedQueue object
         created is between k and n
   * filename = distinct.txt, n = 9, k = 1
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    MemoryOfPermutation.checkMaxSize(MemoryOfPermutation.java:63)
-    MemoryOfPermutation.test2(MemoryOfPermutation.java:168)
-    MemoryOfPermutation.main(MemoryOfPermutation.java:199)
-
   * filename = distinct.txt, n = 9, k = 2
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    MemoryOfPermutation.checkMaxSize(MemoryOfPermutation.java:63)
-    MemoryOfPermutation.test2(MemoryOfPermutation.java:169)
-    MemoryOfPermutation.main(MemoryOfPermutation.java:199)
-
   * filename = distinct.txt, n = 9, k = 4
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    MemoryOfPermutation.checkMaxSize(MemoryOfPermutation.java:63)
-    MemoryOfPermutation.test2(MemoryOfPermutation.java:170)
-    MemoryOfPermutation.main(MemoryOfPermutation.java:199)
-
   * filename = tinyTale.txt, n = 12, k = 10
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    MemoryOfPermutation.checkMaxSize(MemoryOfPermutation.java:63)
-    MemoryOfPermutation.test2(MemoryOfPermutation.java:171)
-    MemoryOfPermutation.main(MemoryOfPermutation.java:199)
-
   * filename = tale.txt, n = 138653, k = 5
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    MemoryOfPermutation.checkMaxSize(MemoryOfPermutation.java:63)
-    MemoryOfPermutation.test2(MemoryOfPermutation.java:172)
-    MemoryOfPermutation.main(MemoryOfPermutation.java:199)
-
   * filename = tale.txt, n = 138653, k = 50
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    MemoryOfPermutation.checkMaxSize(MemoryOfPermutation.java:63)
-    MemoryOfPermutation.test2(MemoryOfPermutation.java:173)
-    MemoryOfPermutation.main(MemoryOfPermutation.java:199)
-
   * filename = tale.txt, n = 138653, k = 500
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    MemoryOfPermutation.checkMaxSize(MemoryOfPermutation.java:63)
-    MemoryOfPermutation.test2(MemoryOfPermutation.java:174)
-    MemoryOfPermutation.main(MemoryOfPermutation.java:199)
-
   * filename = tale.txt, n = 138653, k = 5000
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    MemoryOfPermutation.checkMaxSize(MemoryOfPermutation.java:63)
-    MemoryOfPermutation.test2(MemoryOfPermutation.java:175)
-    MemoryOfPermutation.main(MemoryOfPermutation.java:199)
-
   * filename = tale.txt, n = 138653, k = 50000
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    MemoryOfPermutation.checkMaxSize(MemoryOfPermutation.java:63)
-    MemoryOfPermutation.test2(MemoryOfPermutation.java:176)
-    MemoryOfPermutation.main(MemoryOfPermutation.java:199)
-
-==> FAILED
+==> passed
 
 Test 3 (bonus): check that maximum size of any or Deque or RandomizedQueue object
                 created is equal to k
   * filename = tale.txt, n = 138653, k = 5
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    MemoryOfPermutation.checkMaxSizeBonus(MemoryOfPermutation.java:116)
-    MemoryOfPermutation.test3(MemoryOfPermutation.java:184)
-    MemoryOfPermutation.main(MemoryOfPermutation.java:200)
+    - max size of RandomizedQueue object = 138653
 
   * filename = tale.txt, n = 138653, k = 50
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    MemoryOfPermutation.checkMaxSizeBonus(MemoryOfPermutation.java:116)
-    MemoryOfPermutation.test3(MemoryOfPermutation.java:185)
-    MemoryOfPermutation.main(MemoryOfPermutation.java:200)
+    - max size of RandomizedQueue object = 138653
 
   * filename = tale.txt, n = 138653, k = 500
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    MemoryOfPermutation.checkMaxSizeBonus(MemoryOfPermutation.java:116)
-    MemoryOfPermutation.test3(MemoryOfPermutation.java:186)
-    MemoryOfPermutation.main(MemoryOfPermutation.java:200)
+    - max size of RandomizedQueue object = 138653
 
   * filename = tale.txt, n = 138653, k = 5000
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    MemoryOfPermutation.checkMaxSizeBonus(MemoryOfPermutation.java:116)
-    MemoryOfPermutation.test3(MemoryOfPermutation.java:187)
-    MemoryOfPermutation.main(MemoryOfPermutation.java:200)
+    - max size of RandomizedQueue object = 138653
 
   * filename = tale.txt, n = 138653, k = 50000
-
-    java.util.NoSuchElementException: attempts to read a 'String' value from standard input, but there are no more tokens available
-
-    edu.princeton.cs.algs4.StdIn.readString(StdIn.java:263)
-    Permutation.main(Permutation.java:15)
-    MemoryOfPermutation.checkMaxSizeBonus(MemoryOfPermutation.java:116)
-    MemoryOfPermutation.test3(MemoryOfPermutation.java:188)
-    MemoryOfPermutation.main(MemoryOfPermutation.java:200)
+    - max size of RandomizedQueue object = 138653
 
 ==> FAILED
 
-Total: 0/2 tests passed!
+Total: 2/2 tests passed!
 
 
 ================================================================
@@ -1478,10 +732,603 @@ Test 2a-2i: Total memory usage after inserting n items,
 => passed     2049        98392
 => passed     4097       196696
 => passed     8193       393304
+==> 9/9 tests passed
 
-...
+Memory: 48.00 n + 40.00   (R^2 = 1.000)
 
-WARNING: the grading output was truncated due to excessive length.
-Typically, this is because you have a method that has an unanticipated side effect
-(such as printing to standard output or throwing an exception). A large amount of output
-can also arise from failing many tests.
+
+Test 3a-3i: Total memory usage after inserting 2n-1 items, and then
+            deleting n-1 items, when n is one more than a power of 2.
+
+                 n        bytes
+----------------------------------------------------------
+=> passed       33         1624
+=> passed       65         3160
+=> passed      129         6232
+=> passed      257        12376
+=> passed      513        24664
+=> passed     1025        49240
+=> passed     2049        98392
+=> passed     4097       196696
+=> passed     8193       393304
+==> 9/9 tests passed
+
+Memory: 48.00 n + 40.00   (R^2 = 1.000)
+
+
+Test 4a-4e: Total memory usage after inserting n items,
+            and then deleting all but one item
+            (should not grow with n or be too large of a constant).
+
+                 n        bytes
+----------------------------------------------------------
+=> passed       32           88
+=> passed       64           88
+=> passed      128           88
+=> passed      256           88
+=> passed      512           88
+=> passed     1024           88
+=> passed     2048           88
+=> passed     4096           88
+=> passed     8192           88
+==> 9/9 tests passed
+
+Memory: 88.00   (R^2 = 1.000)
+
+
+Test 5a-5e: Total memory usage of iterator after inserting n items
+            (should not grow with n or be too large of a constant).
+
+                 n        bytes
+----------------------------------------------------------
+=> passed       32           32
+=> passed       64           32
+=> passed      128           32
+=> passed      256           32
+=> passed      512           32
+=> passed     1024           32
+=> passed     2048           32
+=> passed     4096           32
+=> passed     8192           32
+==> 9/9 tests passed
+
+Memory: 32.00   (R^2 = 1.000)
+
+
+Test 6a: Insert n strings; delete them one at a time, checking for
+         loitering after each deletion. The probabilities of addFirst()
+         and addLast() are (p1, p2), respectively. The probabilities of
+         removeFirst() and removeLast() are (q1, q2), respectively.
+  * 100 random insertions (1.0, 0.0) and 100 random deletions (1.0, 0.0)
+  * 100 random insertions (1.0, 0.0) and 100 random deletions (0.0, 1.0)
+  * 100 random insertions (0.0, 1.0) and 100 random deletions (1.0, 0.0)
+  * 100 random insertions (0.0, 1.0) and 100 random deletions (0.0, 1.0)
+  * 100 random insertions (0.5, 0.5) and 100 random deletions (0.5, 0.5)
+==> passed
+
+Test 6b: Perform random operations, checking for loitering after
+         each operation. The probabilities of addFirst(), addLast(),
+         removeFirst(), and removeLast() are (p1, p2, p3, p4),
+         respectively.
+  * 100 random operations (0.8, 0.0, 0.2, 0.0)
+  * 100 random operations (0.8, 0.0, 0.0, 0.2)
+  * 100 random operations (0.0, 0.8, 0.2, 0.0)
+  * 100 random operations (0.0, 0.8, 0.0, 0.2)
+  * 100 random operations (0.4, 0.4, 0.1, 0.1)
+  * 100 random operations (0.2, 0.2, 0.3, 0.3)
+==> passed
+
+Test 7: worst-case constant memory allocated or de-allocated
+        per deque operation?
+  * 128 random operations
+  * 256 random operations
+  * 512 random operations
+==> passed
+
+
+Min observed memory for Deque: 48.00 n + 40.00   (R^2 = 1.000)
+Max observed memory for Deque: 48.00 n + 40.00   (R^2 = 1.000)
+
+Total: 48/48 tests passed!
+
+
+================================================================
+
+
+
+Analyzing memory of RandomizedQueue
+*-----------------------------------------------------------
+For tests 1-5, the maximum amount of memory allowed for
+a RandomizedQueue containing n items is 48n + 192.
+
+Test 1a-1i: Total memory usage after inserting n items
+            when n is a power of 2.
+
+                 n        bytes
+----------------------------------------------------------
+=> passed       32         1576
+=> passed       64         3112
+=> passed      128         6184
+=> passed      256        12328
+=> passed      512        24616
+=> passed     1024        49192
+=> passed     2048        98344
+=> passed     4096       196648
+=> passed     8192       393256
+==> 9/9 tests passed
+
+Memory: 48.00 n + 40.00   (R^2 = 1.000)
+
+
+Test 2a-2i: Total memory usage after inserting n items,
+            when n is one more than a power of 2.
+
+                 n        bytes
+----------------------------------------------------------
+=> passed       33         1624
+=> passed       65         3160
+=> passed      129         6232
+=> passed      257        12376
+=> passed      513        24664
+=> passed     1025        49240
+=> passed     2049        98392
+=> passed     4097       196696
+=> passed     8193       393304
+==> 9/9 tests passed
+
+Memory: 48.00 n + 40.00   (R^2 = 1.000)
+
+
+Test 3a-3i: Total memory usage after inserting 2n-1 items, and then
+            deleting n-1 items, when n is one more than a power of 2.
+
+                 n        bytes
+----------------------------------------------------------
+=> FAILED       33         3064   (1.7x)
+=> FAILED       65         6088   (1.8x)
+=> FAILED      129        12376   (1.9x)
+=> FAILED      257        24520   (2.0x)
+=> FAILED      513        49240   (2.0x)
+=> FAILED     1025        98248   (2.0x)
+=> FAILED     2049       196600   (2.0x)
+=> FAILED     4097       393256   (2.0x)
+=> FAILED     8193       786520   (2.0x)
+==> 0/9 tests passed
+
+Memory: 96.05 n - 98.96   (R^2 = 1.000)
+
+
+Test 4a-4i: Total memory usage after inserting n items, deleting n items,
+            then inserting n times, when n is a power of 2.
+
+                 n        bytes
+----------------------------------------------------------
+=> passed       32         1576
+=> passed       64         3112
+=> passed      128         6184
+=> passed      256        12328
+=> passed      512        24616
+=> passed     1024        49192
+=> passed     2048        98344
+=> passed     4096       196648
+=> passed     8192       393256
+==> 9/9 tests passed
+
+Memory: 48.00 n + 40.00   (R^2 = 1.000)
+
+
+Test 5a-5i: Total memory usage after inserting n items,
+            and then deleting all but one item.
+
+                 n        bytes
+----------------------------------------------------------
+=> FAILED       32          904   (3.8x)
+=> FAILED       64         2440  (10.2x)
+=> FAILED      128         4984  (20.8x)
+=> FAILED      256        11848  (49.4x)
+=> FAILED      512        23656  (98.6x)
+=> FAILED     1024        47704 (198.8x)
+=> FAILED     2048        96904 (403.8x)
+=> FAILED     4096       194632 (811.0x)
+=> FAILED     8192       391096 (2e+03x)
+==> 0/9 tests passed
+
+Memory: 0.00 n^2 + 47.02 n - 619.65   (R^2 = 1.000)
+
+
+Test 6a-6d: Total memory usage of iterator after inserting n items.
+
+                 n        bytes
+----------------------------------------------------------
+=> passed       32           24
+=> passed       64           24
+=> passed      128           24
+=> passed      256           24
+=> passed      512           24
+=> passed     1024           24
+=> passed     2048           24
+=> passed     4096           24
+=> passed     8192           24
+==> 9/9 tests passed
+
+Memory: 24.00   (R^2 = 1.000)
+
+
+Test 7a: Insert 100 strings; delete them one at a time, checking
+         for loitering after each deletion.
+    - loitering observed during 99 of 100 deletions
+    - maximum number of loitered objects at one time = 66
+
+==> FAILED
+
+Test 7b: Perform random operations, checking for loitering after
+         each operation. The probabilities of enqueue(), dequeue(),
+         and sample() are (p1, p2, p3), respectively.
+  * 200 random operations (0.8, 0.2, 0.0)
+    - loitering detected after operation 18 of 200
+  * 200 random operations (0.2, 0.8, 0.0)
+    - loitering detected after operation 54 of 200
+  * 200 random operations (0.6, 0.2, 0.2)
+    - loitering detected after operation 7 of 200
+    - sequence of operations was:
+         rq.enqueue("IQRBZDHWXZ")
+         rq.enqueue("YBMVLKSUNU")
+         rq.enqueue("XQOAOTGBSZ")
+         rq.enqueue("TIDUZWPAEP")
+         rq.enqueue("QVRNGAPQNC")
+         rq.sample()      ==> "IQRBZDHWXZ"
+         rq.dequeue()     ==> "YBMVLKSUNU"
+    - loitered object(s):
+      YBMVLKSUNU
+
+  * 200 random operations (0.2, 0.4, 0.4)
+    - loitering detected after operation 19 of 200
+==> FAILED
+
+Test 8: Insert T items into queue; then iterate over queue and check
+        that worst-case constant memory is allocated or deallocated
+        per iterator operation.
+  * T = 64
+  * T = 128
+  * T = 256
+==> passed
+
+Test 9: Total memory usage after inserting n items, seeking to identify
+        values of n where memory usage is minimized as a function of n.
+
+                 n        bytes
+----------------------------------------------------------
+
+    java.lang.ArrayIndexOutOfBoundsException: Index 0 out of bounds for length 0
+
+    ProgramPerformanceLimits.<init>(ProgramPerformanceLimits.java:72)
+    MemoryOfRandomizedQueue.printTable(MemoryOfRandomizedQueue.java:84)
+    MemoryOfRandomizedQueue.test9(MemoryOfRandomizedQueue.java:640)
+    MemoryOfRandomizedQueue.main(MemoryOfRandomizedQueue.java:744)
+
+Test 10: Total memory usage after inserting 4096 items, then successively
+         deleting items, seeking values of n where memory usage is maximized
+         as a function of n
+
+                 n        bytes
+----------------------------------------------------------
+
+
+WARNING: the time limit of 60 seconds was exceeded, so not all tests could be completed.
+
+================================================================
+
+
+
+********************************************************************************
+*  TIMING
+********************************************************************************
+
+Timing Deque
+*-----------------------------------------------------------
+Running 103 total tests.
+
+Test 1a-1k: make n calls to addFirst() followed by n calls to removeFirst()
+                    n  seconds
+----------------------------------
+=> passed        1024     0.00
+=> passed        2048     0.00
+=> passed        4096     0.00
+=> passed        8192     0.00
+=> passed       16384     0.00
+=> passed       32768     0.00
+=> passed       65536     0.00
+=> passed      128000     0.00
+=> passed      256000     0.00
+=> passed      512000     0.01
+=> passed     1024000     0.02
+==> 11/11 tests passed
+
+
+Test 2a-2k: make n calls to addLast() followed by n calls to removeLast()
+                    n  seconds
+----------------------------------
+=> passed        1024     0.00
+=> passed        2048     0.00
+=> passed        4096     0.00
+=> passed        8192     0.00
+=> passed       16384     0.00
+=> passed       32768     0.00
+=> passed       65536     0.00
+=> passed      128000     0.00
+=> passed      256000     0.01
+=> passed      512000     0.01
+=> passed     1024000     0.03
+==> 11/11 tests passed
+
+
+Test 3a-3k: make n calls to addFirst() followed by n calls to removeLast()
+                    n  seconds
+----------------------------------
+=> passed        1024     0.00
+=> passed        2048     0.00
+=> passed        4096     0.00
+=> passed        8192     0.00
+=> passed       16384     0.00
+=> passed       32768     0.00
+=> passed       65536     0.00
+=> passed      128000     0.00
+=> passed      256000     0.00
+=> passed      512000     0.01
+=> passed     1024000     0.02
+==> 11/11 tests passed
+
+
+Test 4a-4k: make n calls to addLast() followed by n calls to removeFirst()
+                    n  seconds
+----------------------------------
+=> passed        1024     0.00
+=> passed        2048     0.00
+=> passed        4096     0.00
+=> passed        8192     0.00
+=> passed       16384     0.00
+=> passed       32768     0.00
+=> passed       65536     0.00
+=> passed      128000     0.00
+=> passed      256000     0.01
+=> passed      512000     0.01
+=> passed     1024000     0.03
+==> 11/11 tests passed
+
+
+Test 5a-5g: make n random calls to addFirst(), removeFirst(), isEmpty(), and size()
+            with probabilities (0.7, 0.1, 0.1, 0.1)
+
+                    n  seconds
+------------------------------
+=> passed        1024     0.00
+=> passed        2048     0.00
+=> passed        4096     0.00
+=> passed        8192     0.00
+=> passed       16384     0.00
+=> passed       32768     0.00
+=> passed       65536     0.00
+=> passed      128000     0.01
+=> passed      256000     0.01
+=> passed      512000     0.02
+=> passed     1024000     0.03
+=> passed     2048000     0.06
+==> 12/12 tests passed
+
+
+Test 6a-6g: make n random calls to addLast(), removeLast(), isEmpty(), and size(),
+            with probabilities (0.7, 0.1, 0.1, 0.1)
+
+                    n  seconds
+------------------------------
+=> passed        1024     0.00
+=> passed        2048     0.00
+=> passed        4096     0.00
+=> passed        8192     0.00
+=> passed       16384     0.00
+=> passed       32768     0.00
+=> passed       65536     0.00
+=> passed      128000     0.01
+=> passed      256000     0.01
+=> passed      512000     0.02
+=> passed     1024000     0.04
+=> passed     2048000     0.09
+==> 12/12 tests passed
+
+
+Test 7a-7g: make n random calls to addFirst(), addLast(), removeFirst(), removeLast(),
+            isEmpty(), and size() with probabilities (0.3, 0.3, 0.1, 0.1, 0.1, 0.1)
+
+                    n  seconds
+------------------------------
+=> passed        1024     0.00
+=> passed        2048     0.00
+=> passed        4096     0.00
+=> passed        8192     0.00
+=> passed       16384     0.00
+=> passed       32768     0.00
+=> passed       65536     0.00
+=> passed      128000     0.01
+=> passed      256000     0.01
+=> passed      512000     0.03
+=> passed     1024000     0.05
+=> passed     2048000     0.10
+==> 12/12 tests passed
+
+
+Test 8a-8g: make n calls to addFirst(); iterate over the n items by calling
+            next() and hasNext()
+
+                    n  seconds
+------------------------------
+=> passed        1024     0.00
+=> passed        2048     0.00
+=> passed        4096     0.00
+=> passed        8192     0.00
+=> passed       16384     0.00
+=> passed       32768     0.00
+=> passed       65536     0.00
+=> passed      128000     0.00
+=> passed      256000     0.01
+=> passed      512000     0.02
+=> passed     1024000     0.03
+=> passed     2048000     0.04
+==> 12/12 tests passed
+
+
+Test 9a-9k: make n calls to addFirst()/addLast(); interleave n calls each to
+            removeFirst(), removeLast(), addFirst(), and addLast()
+
+                    n  seconds
+----------------------------------
+=> passed        1025     0.00
+=> passed        2049     0.00
+=> passed        4097     0.00
+=> passed        8193     0.00
+=> passed       16385     0.00
+=> passed       32769     0.00
+=> passed       65537     0.01
+=> passed      128001     0.01
+=> passed      256001     0.61
+=> passed      512001     0.03
+=> passed     1024001     0.24
+==> 11/11 tests passed
+
+Total: 103/103 tests passed!
+
+
+================================================================
+
+
+
+Timing RandomizedQueue
+*-----------------------------------------------------------
+Running 67 total tests.
+
+Test 1: make n calls to enqueue() followed by n calls to dequeue();
+        count calls to StdRandom
+  * n = 10
+  * n = 100
+  * n = 1000
+==> passed
+
+Test 2: make n calls to enqueue() follwed by n calls to sample();
+        count calls to StdRandom
+  * n = 10
+  * n = 100
+  * n = 1000
+==> passed
+
+Test 3: make n calls to enqueue() and iterate over the n items;
+        count calls to StdRandom
+  * n = 10
+  * n = 100
+  * n = 1000
+==> passed
+
+Test 4a-k: make n calls to enqueue() followed by n calls to dequeue()
+
+                    n  seconds
+----------------------------------
+=> passed        1024     0.00
+=> passed        2048     0.00
+=> passed        4096     0.01
+=> passed        8192     0.05
+=> passed       16384     0.20
+=> passed       32768     0.84
+=> FAILED       65536     3.83
+   [ Most likely one of your operations is not constant time. ]
+
+==> 6/11 tests passed
+
+
+Test 5a-k: make n calls to enqueue() followed by n random calls to
+           enqueue(), sample(), dequeue(), isEmpty(), and size()
+           with probabilities (0.2, 0.2, 0.2, 0.2, 0.2)
+
+                    n  seconds
+----------------------------------
+=> passed        1024     0.00
+=> passed        2048     0.00
+=> passed        4096     0.01
+=> passed        8192     0.03
+=> passed       16384     0.13
+=> passed       32768     0.57
+=> FAILED       65536     2.44
+   [ Most likely one of your operations is not constant time. ]
+
+==> 6/11 tests passed
+
+
+Test 6a-k: make n calls to enqueue() followed by n random calls to
+           enqueue(), sample(), dequeue(), isEmpty(), and size()
+           with probabilities (0.6, 0.1, 0.1, 0.1, 0.1)
+
+                    n  seconds
+----------------------------------
+=> passed        1024     0.00
+=> passed        2048     0.00
+=> passed        4096     0.00
+=> passed        8192     0.02
+=> passed       16384     0.07
+=> passed       32768     0.34
+=> FAILED       65536     1.38
+   [ Most likely one of your operations is not constant time. ]
+
+==> 6/11 tests passed
+
+
+Test 7a-k: make n calls to enqueue() followed by n random calls to
+           enqueue(), sample(), dequeue(), isEmpty(), and size()
+           with probabilities (0.1, 0.1, 0.6, 0.1, 0.1)
+
+                    n  seconds
+----------------------------------
+=> passed        1024     0.00
+=> passed        2048     0.00
+=> passed        4096     0.01
+=> passed        8192     0.06
+=> passed       16384     0.22
+=> passed       32768     0.96
+=> FAILED       65536     4.02
+   [ Most likely one of your operations is not constant time. ]
+
+==> 6/11 tests passed
+
+
+Test 8a-k: make n calls to enqueue() followed by n calls each to
+           next() and hasNext().
+
+                    n  seconds
+----------------------------------
+=> passed        1024     0.00
+=> passed        2048     0.00
+=> passed        4096     0.01
+=> passed        8192     0.05
+=> passed       16384     0.20
+=> passed       32768     0.85
+=> FAILED       65536     3.78
+   [ Most likely one of your operations is not constant time. ]
+
+==> 6/11 tests passed
+
+
+Test 9a-i: make n calls to enqueue(); then call dequeue() twice,
+           followed by enqueue() twice and repeat n times.
+
+                    n  seconds
+----------------------------------
+=> passed        1025     0.00
+=> passed        2049     0.02
+=> passed        4097     0.09
+=> passed        8193     0.36
+=> FAILED       16385     1.63
+   [ Most likely one of your operations is not constant time. ]
+
+==> 4/9 tests passed
+
+
+Total: 37/67 tests passed!
+
+
+=================================================================

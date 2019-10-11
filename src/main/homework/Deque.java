@@ -154,7 +154,7 @@ public class Deque<Item> implements Iterable<Item> {
         for (int i = 0; i < 10; i++) {
             deque1.addFirst(i);
         }
-        Iterator iterator = deque1.iterator();
+        Iterator<Integer> iterator = deque1.iterator();
         while (iterator.hasNext()) {
             System.out.print(iterator.next() + " ");
         }
@@ -171,7 +171,7 @@ public class Deque<Item> implements Iterable<Item> {
         deque3.addLast(2);
         System.out.println(deque3.removeFirst());
         System.out.println(deque3.removeFirst());
-        Iterator iterator1 = deque3.iterator();
+        Iterator<Integer> iterator1 = deque3.iterator();
         while (iterator1.hasNext()) {
             System.out.println(iterator1.next());
         }
