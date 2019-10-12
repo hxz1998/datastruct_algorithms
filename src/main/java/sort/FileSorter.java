@@ -9,5 +9,8 @@ public class FileSorter {
         File dir = new File(".");
         File[] files = dir.listFiles();
         Insertion.sort(files);
+        for (int i = 0; i < files.length; i++) {
+            System.out.println(files[i]);
+        }
     }
 }
