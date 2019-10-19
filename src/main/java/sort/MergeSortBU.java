@@ -1,7 +1,6 @@
 package sort;
 
-public class Merge {
-
+public class MergeSortBU {
 
     private static void merge(Comparable[] a, Comparable[] aux, int lo, int mid, int hi) {
         assert isSorted(a, lo, mid); // precondition: a[lo..mid] sorted
@@ -27,8 +26,13 @@ public class Merge {
     }
 
     public static void sort(Comparable[] a) {
-        Comparable[] aux = new Comparable[a.length];
-        sort(a, aux, 0, a.length - 1);
+        int N = a.length;
+        Comparable[] aux = new Comparable[N];
+        for (int sz = 1; sz < N; sz = sz + sz) {
+            for (int lo = 0; lo < N - sz; lo += sz + sz) {
+                merge(a, aux, lo, lo + sz - 1, Math.min(lo + sz + sz - 1, N - 1));
+            }
+        }
     }
 
     public static boolean isSorted(Comparable[] a, int lo, int hi) {
