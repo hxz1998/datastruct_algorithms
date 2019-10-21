@@ -1,60 +1,54 @@
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
+import util.DataPathTemplate;
+
 import java.util.Arrays;
 
 public class BruteCollinearPoints {
-    private int lineNumber;
-    private Node last;
 
-    public BruteCollinearPoints(Point[] points) // finds all line segments containing 4 points
-    {
+    private int count;
+    private Node tail;
 
-        if (points == null) {
-            throw new NullPointerException();
-        }
+    public BruteCollinearPoints(Point[] points) {
+        // finds all line segments containing 4 points
+        if (points == null) throw new IllegalArgumentException("Empty!");
 
-        lineNumber = 0;
-
+        // 初始化变量
         int num = points.length;
 
-        Point[] clone = new Point[num];
+        Point[] copy = new Point[num];
+        count = 0;
 
+        // 检查非空和相同元素，进行元素拷贝
         for (int i = 0; i < num; i++) {
-            if (points[i] == null) {
-                throw new NullPointerException();
-            }
-
-            for (int j = i + 1; j < num; j++) {
-                if (points[i].compareTo(points[j]) == 0) {
-                    throw new IllegalArgumentException();
-                }
-            }
-            clone[i] = points[i];
+            if (points[i] == null) throw new IllegalArgumentException("Null!");
+            for (int j = i + 1; j < num; j++)
+                if (points[i].compareTo(points[j]) == 0) throw new IllegalArgumentException("Same!");
+            copy[i] = points[i];
         }
-        Arrays.sort(clone);
+
+        Arrays.sort(copy);
+
         for (int i = 0; i < num; i++) {
-            for (int j = i+1; j < num; j++) {
-                for (int m = j+1; m < num; m++) {
-                    for (int n = m+1; n < num; n++) {
-                        double d01 = clone[i].slopeTo(clone[j]);
-                        double d02 = clone[j].slopeTo(clone[m]);
-                        double d03 = clone[m].slopeTo(clone[n]);
-
-                        if (d01 == d02 && d02 == d03)  {
-                            if (last != null) {
-                                Node newNode = new Node();
-                                newNode.prev = last;
-                                newNode.value = new LineSegment(clone[i],
-                                        clone[n]);
-                                last = newNode;
+            for (int j = i + 1; j < num; j++) {
+                for (int k = j + 1; k < num; k++) {
+                    for (int l = k + 1; l < num; l++) {
+                        double p0p1 = copy[i].slopeTo(copy[j]);
+                        double p0p2 = copy[i].slopeTo(copy[k]);
+                        double p0p3 = copy[i].slopeTo(copy[l]);
+                        if (p0p1 == p0p2 && p0p1 == p0p3) {
+                            if (tail != null) {
+                                Node node = new Node();
+                                node.value = new LineSegment(copy[i], copy[l]);
+                                node.prev = tail;
+                                tail = node;
                             } else {
-                                last = new Node();
-                                last.value = new LineSegment(clone[i],
-                                        clone[n]);
+                                tail = new Node();
+                                tail.value = new LineSegment(copy[i], copy[l]);
+                                tail.prev = null;
                             }
-
-                            lineNumber++;
+                            count++;
                         }
                     }
                 }
@@ -62,30 +56,37 @@ public class BruteCollinearPoints {
         }
     }
 
-    public int numberOfSegments() // the number of line segments
-    {
-        return lineNumber;
+    private class Node {
+        LineSegment value;
+        Node prev;
     }
 
-    public LineSegment[] segments() // the line segments
-    {
-        LineSegment[] lines = new LineSegment[lineNumber];
-        Node current = last;
+    public int numberOfSegments() {        // the number of line segments
+        return count;
+    }
 
-        for (int i = 0; i < lineNumber; i++) {
-            lines[i] = current.value;
+    public LineSegment[] segments() {                // the line segments
+        LineSegment[] lineSegments = new LineSegment[count];
+        Node current = tail;
+        for (int i = 0; i < count; i++) {
+            lineSegments[i] = current.value;
             current = current.prev;
         }
-
-        return lines;
+        return lineSegments;
     }
 
     public static void main(String[] args) {
         // read the n points from a file
+        /*int[] data = In.readInts(DataPathTemplate.build("input8.txt"));
+        Point[] points = new Point[data[0]];
+        int index = 0;
+        for (int i = 1; i < data.length;) {
+            points[index++] = new Point(data[i++], data[i++]);
+        }*/
+
         In in = new In(args[0]);
         int n = in.readInt();
         Point[] points = new Point[n];
-
         for (int i = 0; i < n; i++) {
             int x = in.readInt();
             int y = in.readInt();
@@ -112,10 +113,5 @@ public class BruteCollinearPoints {
         }
 
         StdDraw.show();
-    }
-
-    private class Node {
-        private LineSegment value;
-        private Node prev;
     }
 }
