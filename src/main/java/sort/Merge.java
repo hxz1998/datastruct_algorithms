@@ -4,28 +4,46 @@ public class Merge {
 
 
     private static void merge(Comparable[] a, Comparable[] aux, int lo, int mid, int hi) {
-        assert isSorted(a, lo, mid); // precondition: a[lo..mid] sorted
-        assert isSorted(a, mid + 1, hi); // precondition: a[mid+1..hi] sorted
-        for (int k = lo; k <= hi; k++)
-            aux[k] = a[k];
-        int i = lo, j = mid + 1;
-        for (int k = lo; k <= hi; k++) {
+
+        assert isSorted(a, lo, mid);
+        assert isSorted(a, mid + 1, hi);
+
+        // 拷贝原有数组内容到辅助数组中，注意，需要拷贝的范围是[lo, hi]，而不是[lo, hi)!!!
+        for (int i = lo; i <= hi; i++) aux[i] = a[i];
+
+        // 指定三个指针i， j， k，同样注意的是操作的数组范围。
+        int i = lo, k = lo, j = mid + 1;
+        for (; k <= hi; k++) {
             if (i > mid) a[k] = aux[j++];
             else if (j > hi) a[k] = aux[i++];
-            else if (less(aux[j], aux[i])) a[k] = aux[j++];
-            else a[k] = aux[i++];
+            else if (less(aux[i], aux[j])) a[k] = aux[i++];
+            else a[k] = aux[j++];
         }
-        assert isSorted(a, lo, hi); // postcondition: a[lo..hi] sorted
+
+        assert isSorted(a, lo, hi);
     }
 
     private static void sort(Comparable[] a, Comparable[] aux, int lo, int hi) {
-        if (hi <= lo) return;
+        // 首先检查lo是否小于hi，如果等于的话说明只有一个元素了，没必要进行以下操作
+        if (lo >= hi) return;
+
+        // 构造下一个分治的范围
         int mid = lo + (hi - lo) / 2;
+
+        // 排序左半部分
         sort(a, aux, lo, mid);
+
+        // 排序右半部分
         sort(a, aux, mid + 1, hi);
+
+        // 合并起来两边
         merge(a, aux, lo, mid, hi);
     }
 
+    /**
+     * 对外部提供一个简单易操作的方法
+     * @param a 要排序的对象
+     */
     public static void sort(Comparable[] a) {
         Comparable[] aux = new Comparable[a.length];
         sort(a, aux, 0, a.length - 1);
