@@ -10,6 +10,7 @@ import edu.princeton.cs.algs4.In;
 public class Digraph {
     private Bag<Integer>[] adj;
     private final int V;
+    private int E;
 
     public Digraph(int V) {
         this.V = V;
@@ -35,9 +36,19 @@ public class Digraph {
 
     public void addEdge(int w, int v) {
         adj[w].add(v);
+        E++;
     }
 
     public Iterable<Integer> adj(int v) {
         return adj[v];
+    }
+
+    public Digraph reverse() {
+        Digraph digraph = new Digraph(V);
+        for (int i = 0; i < V; i++) {
+            for (int v : adj(i))
+                digraph.addEdge(v, i);
+        }
+        return digraph;
     }
 }
