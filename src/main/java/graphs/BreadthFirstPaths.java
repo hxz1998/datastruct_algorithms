@@ -80,7 +80,7 @@ public class BreadthFirstPaths {
     public static void main(String[] args) {
         Graph graph = new Graph(new In(DataPathTemplate.build("tinyG.txt")));
         DepthFirstPaths depthFirstPaths = new DepthFirstPaths(graph, 0);
-        for (Integer i : depthFirstPaths.pathTo(5))
+        for (Integer i : depthFirstPaths.pathTo(4))
             System.out.print(i + " ");
     }
 }

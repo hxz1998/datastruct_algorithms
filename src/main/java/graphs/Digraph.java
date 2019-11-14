@@ -5,6 +5,7 @@
 package graphs;
 
 import edu.princeton.cs.algs4.Bag;
+import edu.princeton.cs.algs4.In;
 
 public class Digraph {
     private Bag<Integer>[] adj;
@@ -16,6 +17,20 @@ public class Digraph {
         for (int i = 0; i < V; i++) {
             adj[i] = new Bag<>();
         }
+    }
+
+    public Digraph(In in) {
+        this(in.readInt());
+        int E = in.readInt();
+        for (int i = 0; i < E; i++) {
+            int v = in.readInt();
+            int w = in.readInt();
+            addEdge(v, w);
+        }
+    }
+
+    public int V() {
+        return V;
     }
 
     public void addEdge(int w, int v) {
