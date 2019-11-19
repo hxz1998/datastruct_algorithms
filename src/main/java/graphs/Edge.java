@@ -26,4 +26,9 @@ public class Edge implements Comparable<Edge> {
         else if (this.weight > that.weight) return 1;
         else return 0;
     }
+
+    @Override
+    public String toString() {
+        return "[" + v + " " + w + " " + weight + "]";
+    }
 }
