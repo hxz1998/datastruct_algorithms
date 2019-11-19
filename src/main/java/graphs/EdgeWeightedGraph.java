@@ -22,4 +22,8 @@ public class EdgeWeightedGraph {
     public Iterable<Edge> adj(int v) {
         return adj[v];
     }
+
+    public Iterable<Edge> edges() {
+        return null;
+    }
 }

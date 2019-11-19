@@ -8,7 +8,7 @@ public class KruskalMST {
 
     public KruskalMST(EdgeWeightedGraph graph) {
         MinPQ<Edge> pq = new MinPQ<>();
-        for (Edge e:graph.edges()) {
+        for (Edge e : graph.edges()) {
 
         }
     }
