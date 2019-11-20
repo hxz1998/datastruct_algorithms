@@ -31,7 +31,7 @@ public class KruskalMST {
     }
 
     public static void main(String[] args) {
-        EdgeWeightedGraph edgeWeightedGraph = new EdgeWeightedGraph(new In(DataPathTemplate.build("tinyEWG.txt")));
+        EdgeWeightedGraph edgeWeightedGraph = new EdgeWeightedGraph(new In(DataPathTemplate.build("mediumEWG.txt")));
         KruskalMST kruskalMST = new KruskalMST(edgeWeightedGraph);
         for (Edge edge : kruskalMST.edges())
             System.out.println(edge);

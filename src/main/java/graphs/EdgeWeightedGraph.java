@@ -39,11 +39,10 @@ public class EdgeWeightedGraph {
     }
 
     public Iterable<Edge> edges() {
-        MinPQ<Edge> edges = new MinPQ<>();
-        for (int i = 0; i < adj.length; i++) {
-            for (Edge edge : adj[i]) {
-                edges.insert(edge);
-            }
+        Bag<Edge> edges = new Bag<>();
+        for (int i = 0; i < V; i++) {
+            for (Edge edge : adj[i])
+                if (i < edge.other(i)) edges.add(edge);
         }
         return edges;
     }
