@@ -3,6 +3,10 @@ package graphs;
 import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.Stack;
 
+/**
+ * 使用到了dfs正好只会访问每个节点一次的特性
+ * 将dfs中的顶点参数进行保存，就可以得到前序、后序和逆后序的排序结果
+ */
 public class DepthFirstOrder {
     private boolean[] marked;
     private Queue<Integer> pre;         // 所有顶点前序排列
@@ -20,6 +24,10 @@ public class DepthFirstOrder {
                 dfs(digraph, i);
     }
 
+    /**
+     * 深度优先排序，在方法中加入前序、后序和逆后序排序所用到的数据结构
+     * 当访问所有元素完成时，三个排序也有了结果
+     */
     private void dfs(Digraph digraph, int v) {
         pre.enqueue(v);
         marked[v] = true;

@@ -12,9 +12,6 @@ import util.DataPathTemplate;
 public class KruskalMST {
     private Queue<Edge> mst = new Queue<>();
 
-    /**
-     * 使用Kruskal算法对最小生成树进行处理
-     */
     public KruskalMST(EdgeWeightedGraph graph) {
         // 将边按照升序排列
         MinPQ<Edge> pq = new MinPQ<>();
