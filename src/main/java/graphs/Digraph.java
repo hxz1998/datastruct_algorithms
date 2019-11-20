@@ -7,6 +7,9 @@ package graphs;
 import edu.princeton.cs.algs4.Bag;
 import edu.princeton.cs.algs4.In;
 
+/**
+ * 有向图的实现
+ */
 public class Digraph {
     private Bag<Integer>[] adj;
     private final int V;
