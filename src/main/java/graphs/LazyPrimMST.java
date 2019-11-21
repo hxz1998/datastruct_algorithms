@@ -60,7 +60,10 @@ public class LazyPrimMST {
     }
 
     public double weight() {
-        return 0.0;
+        double weight = 0.0;
+        for (Edge edge : mst)
+            weight += edge.weight();
+        return weight;
     }
 
     public static void main(String[] args) {
@@ -68,5 +71,6 @@ public class LazyPrimMST {
         LazyPrimMST mst = new LazyPrimMST(graph);
         for (Edge edge : mst.edges())
             StdOut.println(edge);
+        System.out.println(String.format("%.2f", mst.weight()));
     }
 }

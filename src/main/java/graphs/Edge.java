@@ -42,4 +42,8 @@ public class Edge implements Comparable<Edge> {
     public String toString() {
         return "[" + v + " " + w + " " + weight + "]";
     }
+
+    public double weight() {
+        return weight;
+    }
 }
