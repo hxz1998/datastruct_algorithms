@@ -34,7 +34,7 @@ public class LazyPrimMST {
 
             // 取出最小边的两个端点
             int v = edge.either(), w = edge.other(v);
-            // 判断这个边是否有效，关键在于两个顶点是不是都放问过了
+            // 判断这个边是否有效，关键在于两个顶点是不是都访问过了
             if (marked[v] && marked[w]) continue;
             // 将这个边添加进最小生成树中
             mst.enqueue(edge);

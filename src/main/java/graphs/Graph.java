@@ -19,6 +19,7 @@ public class Graph {
 
     /**
      * 使用固定数量的点构建一棵树
+     *
      * @param V
      */
     public Graph(int V) {
@@ -78,7 +79,7 @@ public class Graph {
         for (int v = 0; v < g.V(); v++)
             for (int w : g.adj(v))
                 if (v == w) count++;
-        return count / 2;
+        return (double) count / 2;
     }
 
     public String toString() {
