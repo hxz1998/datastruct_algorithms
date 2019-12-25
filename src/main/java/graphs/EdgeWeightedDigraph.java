@@ -13,11 +13,13 @@ public class EdgeWeightedDigraph {
 
     // 定义整个图中的节点数目
     private final int V;
+    private int E;
     // 邻接表
     private Bag<DirectedEdge>[] adj;
 
     public EdgeWeightedDigraph(int V) {
         this.V = V;
+        this.E = 0;
         adj = (Bag<DirectedEdge>[]) new Bag[V];
         for (int v = 0; v < V; v++)
             adj[v] = new Bag<DirectedEdge>();
@@ -29,6 +31,7 @@ public class EdgeWeightedDigraph {
     public void addEdge(DirectedEdge e) {
         int v = e.from();
         adj[v].add(e);
+        E++;
     }
 
     public int V() {
@@ -40,6 +43,14 @@ public class EdgeWeightedDigraph {
      */
     public Iterable<DirectedEdge> adj(int v) {
         return adj[v];
+    }
+
+    public Iterable<DirectedEdge> edges() {
+        Bag<DirectedEdge> bag = new Bag<>();
+        for (int v = 0; v < V; v++)
+            for (DirectedEdge e :adj[v])
+                bag.add(e);
+        return bag;
     }
 
 }

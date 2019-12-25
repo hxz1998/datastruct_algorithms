@@ -37,12 +37,22 @@ public class SP {
         return path;
     }
 
+    /**
+     * 边的松弛
+     */
     private void relax(DirectedEdge e) {
         int v = e.from(), w = e.to();
         if (distTo[w] > distTo[v] + e.weight()) {
             distTo[w] = distTo[v] + e.weight();
             edgeTo[w] = e;
         }
+    }
+
+    /**
+     * 顶点的松弛
+     */
+    private void relax(EdgeWeightedDigraph graph, int v) {
+
     }
 
     public static void main(String[] args) {
