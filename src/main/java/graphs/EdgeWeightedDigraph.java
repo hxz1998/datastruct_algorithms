@@ -5,11 +5,13 @@
 package graphs;
 
 import edu.princeton.cs.algs4.Bag;
+import edu.princeton.cs.algs4.In;
+import util.DataPathTemplate;
 
 /**
  * 有向图的边值加权图
  */
-public class EdgeWeightedDigraph {
+public class EdgeWeightedDigraph extends Digraph {
 
     // 定义整个图中的节点数目
     private final int V;
@@ -18,11 +20,22 @@ public class EdgeWeightedDigraph {
     private Bag<DirectedEdge>[] adj;
 
     public EdgeWeightedDigraph(int V) {
+        super(V);
         this.V = V;
         this.E = 0;
         adj = (Bag<DirectedEdge>[]) new Bag[V];
         for (int v = 0; v < V; v++)
             adj[v] = new Bag<DirectedEdge>();
+    }
+
+    /**
+     * 根据输入流来创建一个加权有向无环图
+     */
+    public EdgeWeightedDigraph(In in) {
+        this(in.readInt());
+        int E = in.readInt();
+        for (int i = 0; i < E;i++)
+            addEdge(new DirectedEdge(in.readInt(), in.readInt(), in.readDouble()));
     }
 
     /**
@@ -38,10 +51,14 @@ public class EdgeWeightedDigraph {
         return V;
     }
 
+    public int E() {
+        return E;
+    }
+
     /**
      * 获取某一个顶点所能到达的所有边
      */
-    public Iterable<DirectedEdge> adj(int v) {
+    public Iterable<DirectedEdge> adjForDirectedEdge(int v) {
         return adj[v];
     }
 
@@ -53,4 +70,16 @@ public class EdgeWeightedDigraph {
         return bag;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        for (DirectedEdge edge : edges())
+            builder.append("\n").append(edge);
+        return builder.toString();
+    }
+
+    public static void main(String[] args) {
+        EdgeWeightedDigraph digraph = new EdgeWeightedDigraph(new In(DataPathTemplate.build("tinyEWDAG.txt")));
+        System.out.println(digraph);
+    }
 }

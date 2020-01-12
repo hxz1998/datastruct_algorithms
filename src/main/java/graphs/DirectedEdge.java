@@ -25,4 +25,9 @@ public class DirectedEdge {
     public double weight() {
         return weight;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%d - %d, weight is %.3f", v, w, weight);
+    }
 }
